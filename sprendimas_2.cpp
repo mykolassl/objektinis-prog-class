@@ -1,28 +1,37 @@
 #include "lib.h"
 
-const int MAX_PAZ_SK = 10;
-
 struct Studentas {
     string vardas = "", pavarde = "";
-    int ndKiekis = 0;
     int* ndPazymiai = nullptr;
     int egzPazymys = 0;
 };
 
-void pildyti(Studentas& , bool& );
-void spausdinti(Studentas , char );
-double apskaiciuoti_vidurki(Studentas );
-double apskaiciuoti_mediana(Studentas );
+void pildyti(Studentas& , bool& , int );
+void spausdinti(Studentas , char , int);
+void generuoti(Studentas& , int );
+double apskaiciuoti_vidurki(Studentas , int );
+double apskaiciuoti_mediana(Studentas , int );
 
 int main() {
-    int maxStudKiekis = 1, studKiekis = 0;
+    srand(time(NULL));
+
+    int maxStudKiekis = 1, studKiekis = 0, ndKiekis = 0;
     char skBudas;   // Galutinio rezultato skaiciavimo budas - igyja 'v' reiksme, jei skaiciuojamas vidurkis, jei mediana -'m'. 
     bool arTesti = true;
+
+    cout << "Iveskite namu darbu skaiciu, kuris buvo skirtas studentams: ";
+
+    while (!(cin >> ndKiekis) || ndKiekis <= 0) {
+        cout << "Neteinga ivestis, bandykite dar karta: ";
+
+        cin.clear();
+        cin.ignore(80, '\n');
+    }
 
     Studentas* grupe = new Studentas [maxStudKiekis];
 
     while (arTesti) {
-        pildyti(grupe[studKiekis], arTesti);
+        pildyti(grupe[studKiekis], arTesti, ndKiekis);
         if (!arTesti) break;
         studKiekis++;
 
@@ -45,15 +54,15 @@ int main() {
         cout << "Neteisinga ivestis, bandykite dar karta: ";
 
         cin.clear();
-        cin.ignore(INT_MAX, '\n');
+        cin.ignore(80, '\n');
 
         cin >> skBudas;
     }
 
-    cout << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis " << (skBudas == 'v' ? "(vid.)" : "(med.)") << endl;
+    cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << "Galutinis " << (skBudas == 'v' ? "(vid.)" : "(med.)") << endl;
     cout << string(50, '-') << endl; 
 
-    for (int i = 0; i < studKiekis; i++) spausdinti(grupe[i], skBudas);
+    for (int i = 0; i < studKiekis; i++) spausdinti(grupe[i], skBudas, ndKiekis);
 
     for (int i = 0; i < studKiekis; i++) delete [] grupe[i].ndPazymiai;
     delete [] grupe;
@@ -61,7 +70,8 @@ int main() {
     return 0;
 }
 
-void pildyti(Studentas& stud, bool& arTesti) {
+void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
+    // ************** Vardas ir pavarde **************
     string vardas, pavarde;
     
     cout << "Iveskite studento varda bei pavarde: "; cin >> vardas >> pavarde;
@@ -69,6 +79,10 @@ void pildyti(Studentas& stud, bool& arTesti) {
     if (vardas == "stop" && pavarde == "stop") {
         arTesti = false;
         cout << "Studentu duomenu ivestis stabdoma" << endl;
+
+        cin.ignore(80, '\n');
+        cin.clear();
+        
         return;
     }
 
@@ -78,17 +92,41 @@ void pildyti(Studentas& stud, bool& arTesti) {
     stud.vardas = vardas; 
     stud.pavarde = pavarde;
 
-    int pazymiai[MAX_PAZ_SK], pazymiuKiekis = 0;
+    // ************** Namu darbai **************
+    stud.ndPazymiai = new int [ndKiekis] { 0 };
 
-    cout << "Iveskite iki " << MAX_PAZ_SK << " pazymiu: ";
+    // Atsitiktinis generavimas
+    char arGeneruoti;
 
-    for (int j = 0; j < MAX_PAZ_SK; j++) {
+    cout << "Ar norite atsitiktinai sugeneruoti sio studento pazymius? (t - taip, n - ne) "; cin >> arGeneruoti;
+    while (arGeneruoti != 't' && arGeneruoti != 'n') {
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
+        
+        cin.clear();
+        cin.ignore(80, '\n');
+
+        cin >> arGeneruoti;
+    }
+
+    cin.clear();
+    cin.ignore(80, '\n');
+
+    if (arGeneruoti == 't') {
+        generuoti(stud, ndKiekis);
+        cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
+        return;
+    } 
+
+    cout << "Iveskite iki " << ndKiekis << " pazymiu: ";
+
+    for (int i = 0; i < ndKiekis; i++) {
         int pazymys;
         
         while ( !(cin >> pazymys) || pazymys < -1 || pazymys > 10) {
             cout << "Neteisinga ivestis, bandykite dar karta: ";
+
             cin.clear();
-            cin.ignore(INT_MAX, '\n');
+            cin.ignore(80, '\n');
         }
 
         if (pazymys == -1) {
@@ -96,24 +134,22 @@ void pildyti(Studentas& stud, bool& arTesti) {
             break;
         } 
 
-        pazymiai[pazymiuKiekis] = pazymys;
-        pazymiuKiekis++;
-
-        if (pazymiuKiekis >= MAX_PAZ_SK) break;
+        stud.ndPazymiai[i] = pazymys;
     }
 
-    stud.ndPazymiai = new int [pazymiuKiekis];
-    copy(pazymiai, pazymiai + pazymiuKiekis, stud.ndPazymiai);
-    stud.ndKiekis = pazymiuKiekis;
+    cin.ignore(80, '\n');
+    cin.clear();
 
+    // ************** Egzaminas **************
     int egzPazymys;
 
     cout << "Iveskite egzamino pazymi: ";
 
     while ( !(cin >> egzPazymys) || egzPazymys < 0 || egzPazymys > 10) {
         cout << "Neteisinga ivestis, bandykite dar karta: ";
+
         cin.clear();
-        cin.ignore( INT_MAX, '\n' );
+        cin.ignore(80, '\n');
     }
 
     stud.egzPazymys = egzPazymys;
@@ -121,35 +157,43 @@ void pildyti(Studentas& stud, bool& arTesti) {
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void spausdinti(Studentas stud, char skBudas) {
-    cout << stud.vardas << setw(15) << stud.pavarde << setw(20);
+void spausdinti(Studentas stud, char skBudas, int ndKiekis) {
+    cout << setw(15) << stud.vardas << setw(15) << stud.pavarde << setw(20);
 
     double galutinis;
 
-    if (skBudas == 'v') galutinis = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
-    else galutinis = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
+    if (skBudas == 'v') galutinis = 0.4 * apskaiciuoti_vidurki(stud, ndKiekis) + 0.6 * stud.egzPazymys;
+    else galutinis = 0.4 * apskaiciuoti_mediana(stud, ndKiekis) + 0.6 * stud.egzPazymys;
 
     cout << fixed << setprecision(2) << galutinis << setw(5) << endl;
 }
 
-double apskaiciuoti_vidurki(Studentas stud) {
-    int sum = 0;
+void generuoti(Studentas& stud, int ndKiekis) {
+    for (int i = 0; i < ndKiekis; i++) {
+        stud.ndPazymiai[i] = (double)rand() / RAND_MAX * 10 + 1;
+    }
 
-    for (int i = 0; i < stud.ndKiekis; i++) sum += stud.ndPazymiai[i];
-
-    return (double)sum / stud.ndKiekis;
+    stud.egzPazymys = (double)rand() / RAND_MAX * 10 + 1;
 }
 
-double apskaiciuoti_mediana(Studentas stud) {
-    for (int i = 0; i < stud.ndKiekis; i++) {
-        for (int j = 0; j < stud.ndKiekis; j++) {
+double apskaiciuoti_vidurki(Studentas stud, int ndKiekis) {
+    int sum = 0;
+
+    for (int i = 0; i < ndKiekis; i++) sum += stud.ndPazymiai[i];
+
+    return (double)sum / ndKiekis;
+}
+
+double apskaiciuoti_mediana(Studentas stud, int ndKiekis) {
+    for (int i = 0; i < ndKiekis; i++) {
+        for (int j = 0; j < ndKiekis; j++) {
             if (stud.ndPazymiai[i] < stud.ndPazymiai[j]) swap(stud.ndPazymiai[i], stud.ndPazymiai[j]);
         }
     }
 
-    if (stud.ndKiekis % 2 == 1) {
-        return stud.ndPazymiai[(int)stud.ndKiekis / 2];
+    if (ndKiekis % 2 == 1) {
+        return stud.ndPazymiai[(int)ndKiekis / 2];
     } else {
-        return (stud.ndPazymiai[stud.ndKiekis / 2] + stud.ndPazymiai[stud.ndKiekis / 2 - 1]) / 2.0;
+        return (stud.ndPazymiai[ndKiekis / 2] + stud.ndPazymiai[ndKiekis / 2 - 1]) / 2.0;
     }
 }
