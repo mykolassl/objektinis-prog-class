@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <numeric>
 
 using std::cout;
 using std::cin;
@@ -21,3 +22,5 @@ using std::string;
 using std::vector;
 using std::srand;
 using std::rand;
+using std::accumulate;
+using std::sort;
