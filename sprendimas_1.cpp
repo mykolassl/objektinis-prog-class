@@ -7,7 +7,7 @@ struct Studentas {
 };
 
 void pildyti(Studentas& , bool& , int );
-void spausdinti(const Studentas , char );
+void spausdinti(const Studentas );
 void generuoti(Studentas& );
 double apskaiciuoti_vidurki(Studentas );
 double apskaiciuoti_mediana(Studentas );
@@ -16,7 +16,6 @@ int main() {
     srand(time(NULL));
 
     int ndKiekis = 0;
-    char skBudas;   // Galutinio rezultato skaiciavimo budas - igyja 'v' reiksme, jei skaiciuojamas vidurkis, jei mediana -'m'. 
     bool arTesti = true;
 
     cout << "Iveskite namu darbu skaiciu, kuris buvo skirtas studentams: ";
@@ -38,21 +37,10 @@ int main() {
         grupe.push_back(temp);
     }
 
-    cout << "Iveskite studentu galutinio balo skaiciavimo buda (v - vidurkis, m - mediana): "; cin >> skBudas;
+    cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
+    cout << string(70, '-') << endl; 
 
-    while (skBudas != 'v' && skBudas != 'm') {
-        cout << "Neteisinga ivestis, bandykite dar karta: ";
-
-        cin.clear();
-        cin.ignore(80, '\n');
-
-        cin >> skBudas;
-    }
-
-    cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << "Galutinis " << (skBudas == 'v' ? "(vid.)" : "(med.)") << endl;
-    cout << string(50, '-') << endl; 
-
-    for (const auto& i : grupe) spausdinti(i, skBudas);
+    for (const auto& i : grupe) spausdinti(i);
 
     grupe.clear();
 
@@ -67,7 +55,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
 
     if (vardas == "stop" && pavarde == "stop") {
         arTesti = false;
-        cout << "Studentu duomenu ivestis stabdoma" << endl;
+        cout << "Studentu duomenu ivestis stabdoma" << endl << endl;
 
         cin.ignore(80, '\n');
         cin.clear();
@@ -146,15 +134,13 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void spausdinti(const Studentas stud, char skBudas) {
+void spausdinti(const Studentas stud) {
     cout << setw(15) << stud.vardas << setw(15) << stud.pavarde << setw(20);
 
-    double galutinis;
+    double galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys, 
+            galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
 
-    if (skBudas == 'v') galutinis = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
-    else galutinis = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
-
-    cout << fixed << setprecision(2) << galutinis << setw(5) << endl;
+    cout << fixed << setprecision(2) << galutinis_vid << setw(20) << galutinis_med << endl;
 }
 
 void generuoti(Studentas& stud) {
