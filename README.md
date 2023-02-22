@@ -14,3 +14,5 @@ Vietoje vidurkio taip pat galima pasirinkti studento namų darbų pažymių medi
 Pirmoji programos versija.
 
 Faile `sprendimas_1.cpp` pateiktas užduoties sprendimas naudojantis C++ standartine biblioteka `<vector>` studentų ir jų namų darbų pažymių laikymui. Faile `sprendimas_2.cpp` pateikta antra užduoties iteracija, kurioje vietoj `<vector>` buvo naudojami paprasti dinaminiai C kalbos masyvai.
+
+## Release v0.2
