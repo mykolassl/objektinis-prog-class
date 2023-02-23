@@ -2,58 +2,47 @@
 
 struct Studentas {
     string vardas = "", pavarde = "";
-    int* ndPazymiai = nullptr;
+    vector<int> ndPazymiai;
     int egzPazymys = 0;
 };
 
 void pildyti(Studentas& , bool& , int );
-void spausdinti(Studentas , int);
-void generuoti(Studentas& , int );
-double apskaiciuoti_vidurki(Studentas , int );
-double apskaiciuoti_mediana(Studentas , int );
+void spausdinti(const Studentas );
+void generuoti(Studentas& );
+double apskaiciuoti_vidurki(Studentas );
+double apskaiciuoti_mediana(Studentas );
 
 int main() {
     srand(time(NULL));
 
-    int maxStudKiekis = 1, studKiekis = 0, ndKiekis = 0;
+    int ndKiekis = 0;
     bool arTesti = true;
 
     cout << "Iveskite namu darbu skaiciu, kuris buvo skirtas studentams: ";
 
     while (!(cin >> ndKiekis) || ndKiekis <= 0) {
-        cout << "Neteinga ivestis, bandykite dar karta: ";
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
 
         cin.clear();
         cin.ignore(80, '\n');
     }
 
-    Studentas* grupe = new Studentas [maxStudKiekis];
+    vector<Studentas> grupe;
 
     while (arTesti) {
-        pildyti(grupe[studKiekis], arTesti, ndKiekis);
+        Studentas temp;
+        pildyti(temp, arTesti, ndKiekis);
         if (!arTesti) break;
-        studKiekis++;
 
-        if (studKiekis >= maxStudKiekis) {
-            maxStudKiekis *= 2;
-
-            Studentas* temp = new Studentas [maxStudKiekis];
-            copy(grupe, grupe + studKiekis, temp);
-            delete [] grupe;
-
-            grupe = new Studentas [maxStudKiekis];
-            copy(temp, temp + studKiekis, grupe);
-            delete [] temp;
-        } 
+        grupe.push_back(temp);
     }
 
     cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     cout << string(70, '-') << endl; 
 
-    for (int i = 0; i < studKiekis; i++) spausdinti(grupe[i], ndKiekis);
+    for (const auto& i : grupe) spausdinti(i);
 
-    for (int i = 0; i < studKiekis; i++) delete [] grupe[i].ndPazymiai;
-    delete [] grupe;
+    grupe.clear();
 
     return 0;
 }
@@ -81,7 +70,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     stud.pavarde = pavarde;
 
     // ************** Namu darbai **************
-    stud.ndPazymiai = new int [ndKiekis] { 0 };
+    stud.ndPazymiai.resize(ndKiekis);
 
     // Atsitiktinis generavimas
     char arGeneruoti;
@@ -100,17 +89,17 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cin.ignore(80, '\n');
 
     if (arGeneruoti == 't') {
-        generuoti(stud, ndKiekis);
+        generuoti(stud);
         cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
         return;
     } 
 
     cout << "Iveskite iki " << ndKiekis << " pazymiu: ";
 
-    for (int i = 0; i < ndKiekis; i++) {
+    for (auto& i : stud.ndPazymiai) {
         int pazymys;
         
-        while ( !(cin >> pazymys) || pazymys < -1 || pazymys > 10) {
+        while (!(cin >> pazymys) || pazymys < -1 || pazymys > 10) {
             cout << "Neteisinga ivestis, bandykite dar karta: ";
 
             cin.clear();
@@ -122,7 +111,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
             break;
         } 
 
-        stud.ndPazymiai[i] = pazymys;
+        i = pazymys;
     }
 
     cin.ignore(80, '\n');
@@ -133,7 +122,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
 
     cout << "Iveskite egzamino pazymi: ";
 
-    while ( !(cin >> egzPazymys) || egzPazymys < 0 || egzPazymys > 10) {
+    while (!(cin >> egzPazymys) || egzPazymys < 0 || egzPazymys > 10) {
         cout << "Neteisinga ivestis, bandykite dar karta: ";
 
         cin.clear();
@@ -145,41 +134,33 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void spausdinti(Studentas stud, int ndKiekis) {
+void spausdinti(const Studentas stud) {
     cout << setw(15) << stud.vardas << setw(15) << stud.pavarde << setw(20);
 
-    double galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud, ndKiekis) + 0.6 * stud.egzPazymys, 
-            galutinis_med = 0.4 * apskaiciuoti_mediana(stud, ndKiekis) + 0.6 * stud.egzPazymys;
+    double galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys, 
+            galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
 
     cout << fixed << setprecision(2) << galutinis_vid << setw(20) << galutinis_med << endl;
 }
 
-void generuoti(Studentas& stud, int ndKiekis) {
-    for (int i = 0; i < ndKiekis; i++) {
-        stud.ndPazymiai[i] = (double)rand() / RAND_MAX * 10 + 1;
-    }
+void generuoti(Studentas& stud) {
+    for (auto& i : stud.ndPazymiai) i = (double)rand() / RAND_MAX * 10 + 1;
 
     stud.egzPazymys = (double)rand() / RAND_MAX * 10 + 1;
 }
 
-double apskaiciuoti_vidurki(Studentas stud, int ndKiekis) {
-    int sum = 0;
+double apskaiciuoti_vidurki(Studentas stud) {
+    int sum = accumulate(stud.ndPazymiai.begin(), stud.ndPazymiai.end(), 0);
 
-    for (int i = 0; i < ndKiekis; i++) sum += stud.ndPazymiai[i];
-
-    return (double)sum / ndKiekis;
+    return (double)sum / stud.ndPazymiai.size();
 }
 
-double apskaiciuoti_mediana(Studentas stud, int ndKiekis) {
-    for (int i = 0; i < ndKiekis; i++) {
-        for (int j = 0; j < ndKiekis; j++) {
-            if (stud.ndPazymiai[i] < stud.ndPazymiai[j]) swap(stud.ndPazymiai[i], stud.ndPazymiai[j]);
-        }
-    }
+double apskaiciuoti_mediana(Studentas stud) {
+    sort(stud.ndPazymiai.begin(), stud.ndPazymiai.end());
 
-    if (ndKiekis % 2 == 1) {
-        return stud.ndPazymiai[(int)ndKiekis / 2];
+    if (stud.ndPazymiai.size() % 2 == 1) {
+        return stud.ndPazymiai[stud.ndPazymiai.size() / 2];
     } else {
-        return (stud.ndPazymiai[ndKiekis / 2] + stud.ndPazymiai[ndKiekis / 2 - 1]) / 2.0;
+        return (stud.ndPazymiai[stud.ndPazymiai.size() / 2] + stud.ndPazymiai[stud.ndPazymiai.size() / 2 - 1]) / 2.0;
     }
 }
