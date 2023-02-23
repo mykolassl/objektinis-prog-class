@@ -9,6 +9,9 @@ struct Studentas {
 void pildyti(Studentas& , bool& , int );
 void spausdinti(const Studentas );
 void generuoti(Studentas& );
+void rankinis_ivedimas();
+void failo_skaitymas();
+
 double apskaiciuoti_vidurki(Studentas );
 double apskaiciuoti_mediana(Studentas );
 
