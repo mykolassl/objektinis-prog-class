@@ -17,8 +17,6 @@ double apskaiciuoti_vidurki(Studentas );
 double apskaiciuoti_mediana(Studentas );
 
 int main() {
-    srand(time(NULL));
-
     char ivestiesBudas;
     cout << "Ar studentus norite vesti ranka, ar skaityti is failo? (r - ranka, f - is failo) "; cin >> ivestiesBudas;
     while (ivestiesBudas != 'r' && ivestiesBudas != 'f') {
@@ -73,10 +71,24 @@ void ivesti_ranka() {
 }
 
 void skaityti_faila() {
-    ifstream fin("kursiokai2.txt");
+    ifstream fin("kursiokai.txt");
     stringstream ssIn;
     ssIn << fin.rdbuf();
     fin.close();
+
+    // Namu darbu kiekio nustatymas.
+    string eilute;
+    stringstream ssTemp;
+    int pazymiuKiekis = 0;
+    getline(ssIn, eilute);
+    eilute.erase(0, 52);
+    ssTemp << eilute;
+
+    while (!ssTemp.eof()) {
+        string v;
+        ssTemp >> v;
+        pazymiuKiekis++;
+    }
 
     vector<Studentas> grupe;
 
@@ -86,11 +98,12 @@ void skaityti_faila() {
         ssIn >> temp.vardas >> temp.pavarde;
         int num;
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < pazymiuKiekis; i++) {
             ssIn >> num;
             temp.ndPazymiai.push_back(num);
         }
 
+        // Paskutinis pazymys visada egzamino
         temp.egzPazymys = temp.ndPazymiai.back();
         temp.ndPazymiai.pop_back();
         temp.galutinis_vid = 0.4 * apskaiciuoti_vidurki(temp) + 0.6 * temp.egzPazymys;
@@ -120,10 +133,6 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
         arTesti = false;
         stud.vardas = "";
         cout << "Studentu duomenu ivestis stabdoma" << endl << endl;
-
-        cin.ignore(80, '\n');
-        cin.clear();
-        
         return;
     }
 
@@ -210,9 +219,13 @@ void spausdinti(const Studentas stud) {
 }
 
 void generuoti(Studentas& stud) {
-    for (auto& i : stud.ndPazymiai) i = (double)rand() / RAND_MAX * 10 + 1;
+    random_device r_d;
+    mt19937 mt(r_d());
+    uniform_int_distribution<int> dist(1, 10);
 
-    stud.egzPazymys = (double)rand() / RAND_MAX * 10 + 1;
+    for (auto& i : stud.ndPazymiai) i = dist(mt);
+
+    stud.egzPazymys = dist(mt);
 }
 
 double apskaiciuoti_vidurki(Studentas stud) {
