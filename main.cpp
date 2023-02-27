@@ -2,15 +2,16 @@
 
 struct Studentas {
     string vardas = "", pavarde = "";
-    vector<int> ndPazymiai;
+    double galutinis_vid = 0, galutinis_med = 0;
     int egzPazymys = 0;
+    vector<int> ndPazymiai;
 };
 
+void ivesti_ranka();
+void skaityti_faila();
 void pildyti(Studentas& , bool& , int );
 void spausdinti(const Studentas );
 void generuoti(Studentas& );
-void rankinis_ivedimas();
-void failo_skaitymas();
 
 double apskaiciuoti_vidurki(Studentas );
 double apskaiciuoti_mediana(Studentas );
@@ -18,6 +19,24 @@ double apskaiciuoti_mediana(Studentas );
 int main() {
     srand(time(NULL));
 
+    char ivestiesBudas;
+    cout << "Ar studentus norite vesti ranka, ar skaityti is failo? (r - ranka, f - is failo) "; cin >> ivestiesBudas;
+    while (ivestiesBudas != 'r' && ivestiesBudas != 'f') {
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
+
+        cin.ignore(80, '\n');
+        cin.clear();
+
+        cin >> ivestiesBudas;
+    }
+
+    if (ivestiesBudas == 'r') ivesti_ranka();
+    else skaityti_faila();
+
+    return 0;
+}
+
+void ivesti_ranka() {
     int ndKiekis = 0;
     bool arTesti = true;
 
@@ -30,6 +49,9 @@ int main() {
         cin.ignore(80, '\n');
     }
 
+    cin.clear();
+    cin.ignore(80, '\n');
+
     vector<Studentas> grupe;
 
     while (arTesti) {
@@ -40,24 +62,63 @@ int main() {
         grupe.push_back(temp);
     }
 
+    if (grupe.size() == 0) return;
+
     cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     cout << string(70, '-') << endl; 
 
     for (const auto& i : grupe) spausdinti(i);
 
     grupe.clear();
+}
 
-    return 0;
+void skaityti_faila() {
+    ifstream fin("kursiokai2.txt");
+    stringstream ssIn;
+    ssIn << fin.rdbuf();
+    fin.close();
+
+    vector<Studentas> grupe;
+
+    while (!ssIn.eof()) {
+        Studentas temp;
+
+        ssIn >> temp.vardas >> temp.pavarde;
+        int num;
+
+        for (int i = 0; i < 20; i++) {
+            ssIn >> num;
+            temp.ndPazymiai.push_back(num);
+        }
+
+        temp.egzPazymys = temp.ndPazymiai.back();
+        temp.ndPazymiai.pop_back();
+        temp.galutinis_vid = 0.4 * apskaiciuoti_vidurki(temp) + 0.6 * temp.egzPazymys;
+        temp.galutinis_med = 0.4 * apskaiciuoti_mediana(temp) + 0.6 * temp.egzPazymys;
+
+        grupe.push_back(temp);
+        ssIn.ignore(INT_MAX, '\n');
+    }
+
+    stringstream ssOut;
+    for (auto& i : grupe) {
+        ssOut << left << setw(20) << i.vardas << setw(20) << i.pavarde << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
+    }
+    ofstream fout("apdorota.txt");
+    fout << ssOut.rdbuf();
+    fout.close();
 }
 
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     // ************** Vardas ir pavarde **************
-    string vardas, pavarde;
-    
-    cout << "Iveskite studento varda bei pavarde: "; cin >> vardas >> pavarde;
+    cout << "Iveskite studento varda: "; cin >> stud.vardas;
 
-    if (vardas == "stop" && pavarde == "stop") {
+    cin.ignore(80, '\n');
+    cin.clear();
+
+    if (stud.vardas == "stop") {
         arTesti = false;
+        stud.vardas = "";
         cout << "Studentu duomenu ivestis stabdoma" << endl << endl;
 
         cin.ignore(80, '\n');
@@ -66,11 +127,10 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
         return;
     }
 
+    cout << "Iveskite studento pavarde: "; cin >> stud.pavarde;
+
     cin.ignore(80, '\n');
     cin.clear();
-
-    stud.vardas = vardas; 
-    stud.pavarde = pavarde;
 
     // ************** Namu darbai **************
     stud.ndPazymiai.resize(ndKiekis);
@@ -93,6 +153,8 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
 
     if (arGeneruoti == 't') {
         generuoti(stud);
+        stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
+        stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
         cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
         return;
     } 
@@ -132,18 +194,19 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
         cin.ignore(80, '\n');
     }
 
+    cin.clear();
+    cin.ignore(80, '\n');
+
     stud.egzPazymys = egzPazymys;
+    stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
+    stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
 
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
 void spausdinti(const Studentas stud) {
-    cout << setw(15) << stud.vardas << setw(15) << stud.pavarde << setw(20);
-
-    double galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys, 
-            galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
-
-    cout << fixed << setprecision(2) << galutinis_vid << setw(20) << galutinis_med << endl;
+    cout << setw(15) << stud.vardas << setw(15) << stud.pavarde 
+    << setw(20) << fixed << setprecision(2) << stud.galutinis_vid << setw(20) << stud.galutinis_med << endl;
 }
 
 void generuoti(Studentas& stud) {

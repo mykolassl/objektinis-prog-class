@@ -3,13 +3,18 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <string>
 #include <vector>
 #include <random>
 #include <numeric>
+#include <fstream>
+#include <sstream>
+#include <chrono>
 
 using std::cout;
 using std::cin;
+using std::ifstream;
+using std::ofstream;
+using std::stringstream;
 using std::endl;
 using std::left;
 using std::right;
@@ -20,7 +25,5 @@ using std::copy;
 using std::swap;
 using std::string;
 using std::vector;
-using std::srand;
-using std::rand;
 using std::accumulate;
 using std::sort;
