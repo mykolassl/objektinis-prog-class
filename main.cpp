@@ -66,6 +66,8 @@ void ivesti_ranka() {
     cout << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     cout << string(80, '-') << endl; 
 
+    sort(grupe.begin(), grupe.end(), palyginti_studentus);
+
     for (const auto& i : grupe) spausdinti(i);
 
     grupe.clear();
