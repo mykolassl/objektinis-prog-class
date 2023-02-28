@@ -15,6 +15,7 @@ void generuoti(Studentas& );
 
 double apskaiciuoti_vidurki(Studentas );
 double apskaiciuoti_mediana(Studentas );
+bool palyginti_studentus(const Studentas , const Studentas );
 
 int main() {
     char ivestiesBudas;
@@ -62,8 +63,8 @@ void ivesti_ranka() {
 
     if (grupe.size() == 0) return;
 
-    cout << setw(15) << left << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
-    cout << string(70, '-') << endl; 
+    cout << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
+    cout << string(80, '-') << endl; 
 
     for (const auto& i : grupe) spausdinti(i);
 
@@ -72,14 +73,21 @@ void ivesti_ranka() {
 
 void skaityti_faila() {
     ifstream fin("kursiokai.txt");
+
+    if (!fin) {
+        cout << "Failas pavadinimu kursiokai.txt nerastas." << endl;
+        return;
+    }
+
     stringstream ssIn;
     ssIn << fin.rdbuf();
     fin.close();
 
-    // Namu darbu kiekio nustatymas.
+    // Pazymiu kiekio, iskaitant egzamina, nustatymas.
     string eilute;
     stringstream ssTemp;
     int pazymiuKiekis = 0;
+
     getline(ssIn, eilute);
     eilute.erase(0, 52);
     ssTemp << eilute;
@@ -87,36 +95,61 @@ void skaityti_faila() {
     while (!ssTemp.eof()) {
         string v;
         ssTemp >> v;
+
+        if (v.empty()) continue;
+
         pazymiuKiekis++;
     }
 
+    if (pazymiuKiekis < 2) {
+        cout << "Faile turi buti nurodytas bent vienas namu darbu ir egzamino pazymys." << endl;
+        return;
+    }
+
+    Studentas stud;
     vector<Studentas> grupe;
+    int pazymys;
+    stud.ndPazymiai.reserve(pazymiuKiekis);
 
     while (!ssIn.eof()) {
-        Studentas temp;
-
-        ssIn >> temp.vardas >> temp.pavarde;
-        int num;
+        ssIn >> stud.vardas >> stud.pavarde;
 
         for (int i = 0; i < pazymiuKiekis; i++) {
-            ssIn >> num;
-            temp.ndPazymiai.push_back(num);
+            ssIn >> pazymys;
+            if (!ssIn || pazymys < 0 || pazymys > 10) {
+                cout << "Klaida! Studento " << stud.vardas << " " << stud.pavarde << " duomenys ivesti neteisingai." << endl;
+                ssIn.clear();
+                return;
+            }
+            stud.ndPazymiai.push_back(pazymys);
         }
 
         // Paskutinis pazymys visada egzamino
-        temp.egzPazymys = temp.ndPazymiai.back();
-        temp.ndPazymiai.pop_back();
-        temp.galutinis_vid = 0.4 * apskaiciuoti_vidurki(temp) + 0.6 * temp.egzPazymys;
-        temp.galutinis_med = 0.4 * apskaiciuoti_mediana(temp) + 0.6 * temp.egzPazymys;
+        stud.egzPazymys = stud.ndPazymiai.back();
+        stud.ndPazymiai.pop_back();
+        stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
+        stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
 
-        grupe.push_back(temp);
         ssIn.ignore(INT_MAX, '\n');
+        grupe.push_back(stud);
+        
+        stud.ndPazymiai.clear();
     }
 
+    sort(grupe.begin(), grupe.end(), palyginti_studentus);
+    
     stringstream ssOut;
+
+    ssOut << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
+    ssOut << string(80, '-') << endl; 
+
     for (auto& i : grupe) {
-        ssOut << left << setw(20) << i.vardas << setw(20) << i.pavarde << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
+        ssOut << left << setw(20) << i.vardas << setw(20) << i.pavarde 
+        << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
     }
+
+    grupe.clear();
+
     ofstream fout("apdorota.txt");
     fout << ssOut.rdbuf();
     fout.close();
@@ -214,7 +247,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
 }
 
 void spausdinti(const Studentas stud) {
-    cout << setw(15) << stud.vardas << setw(15) << stud.pavarde 
+    cout << setw(20) << stud.vardas << setw(20) << stud.pavarde 
     << setw(20) << fixed << setprecision(2) << stud.galutinis_vid << setw(20) << stud.galutinis_med << endl;
 }
 
@@ -242,4 +275,8 @@ double apskaiciuoti_mediana(Studentas stud) {
     } else {
         return (stud.ndPazymiai[stud.ndPazymiai.size() / 2] + stud.ndPazymiai[stud.ndPazymiai.size() / 2 - 1]) / 2.0;
     }
+}
+
+bool palyginti_studentus(const Studentas stud1, const Studentas stud2) {
+    return stud2.vardas > stud1.vardas;
 }

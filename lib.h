@@ -8,7 +8,6 @@
 #include <numeric>
 #include <fstream>
 #include <sstream>
-#include <chrono>
 
 using std::cout;
 using std::cin;
