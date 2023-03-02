@@ -9,6 +9,15 @@ Studentų duomenų bazė. Studentų duomenis galima įvesti ranka arba skaityti 
 
 Vietoje vidurkio taip pat galima pasirinkti studento namų darbų pažymių medianą.
 
+## Release v0.3
+
+Trečioji programos versija.
+
+### Kas pasikeitė:
+
+1. Projektas paskirstytas į mežesnius failus.
+2. Pridėtas klaidų valdymas skaitant duomenų failą.
+
 ## Release v0.2
 
 Antroji programos versija.
