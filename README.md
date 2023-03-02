@@ -15,7 +15,7 @@ Trečioji programos versija.
 
 ### Kas pasikeitė:
 
-1. Projektas paskirstytas į mežesnius failus.
+1. Projektas paskirstytas į mažesnius failus.
 2. Pridėtas klaidų valdymas skaitant duomenų failą.
 
 ## Release v0.2
