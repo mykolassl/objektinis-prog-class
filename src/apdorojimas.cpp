@@ -99,16 +99,20 @@ void spausdinti(const Studentas stud) {
 }
 
 void skaityti_faila() {
-    ifstream fin("kursiokai.txt");
+    stringstream ssIn;
+    
+    try {
+        ifstream fin;
+        fin.exceptions(ifstream::failbit | ifstream::badbit);
+        fin.open("kursiokai.txt");
 
-    if (!fin) {
+        ssIn << fin.rdbuf();
+        
+        fin.close();
+    } catch (...) {
         cout << "Failas pavadinimu kursiokai.txt nerastas." << endl;
         return;
     }
-
-    stringstream ssIn;
-    ssIn << fin.rdbuf();
-    fin.close();
 
     // Pazymiu kiekio, iskaitant egzamina, nustatymas.
     string eilute;
