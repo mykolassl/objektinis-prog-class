@@ -1,6 +1,7 @@
 #include "../libs/lib.h"
 #include "../libs/studentas.h"
 #include "../libs/pagalbines_funk.h"
+#include "../libs/apdorojimas.h"
 
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     // ************** Vardas ir pavarde **************
@@ -41,7 +42,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cin.ignore(80, '\n');
 
     if (arGeneruoti == 't') {
-        generuoti(stud);
+        generuoti_pazymius(stud);
         stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
         stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
         cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
@@ -98,20 +99,32 @@ void spausdinti(const Studentas stud) {
     << setw(20) << fixed << setprecision(2) << stud.galutinis_vid << setw(20) << stud.galutinis_med << endl;
 }
 
+bool surasti_maziausia(Studentas stud) {
+    return stud.galutinis_vid >= 5;
+}
+
 void skaityti_faila() {
     stringstream ssIn;
-    
-    try {
-        ifstream fin;
-        fin.exceptions(ifstream::failbit | ifstream::badbit);
-        fin.open("kursiokai.txt");
+    string failoPav;
 
-        ssIn << fin.rdbuf();
-        
-        fin.close();
-    } catch (...) {
-        cout << "Failas pavadinimu kursiokai.txt nerastas." << endl;
-        return;
+    while (true) {
+        try {
+            cout << "Iveskite pilna failo pavadinima is zemiau pateikto saraso:" << endl;
+            system("dir /b *.txt");
+
+            cin >> failoPav;
+
+            ifstream fin;
+            fin.exceptions(ifstream::failbit | ifstream::badbit);
+            fin.open(failoPav);
+
+            ssIn << fin.rdbuf();
+            
+            fin.close();
+            break;
+        } catch (...) {
+            cout << "Failas pavadinimu " << failoPav << " nerastas. Bandykite dar Karta." << endl << endl;
+        }
     }
 
     // Pazymiu kiekio, iskaitant egzamina, nustatymas.
@@ -120,7 +133,6 @@ void skaityti_faila() {
     int pazymiuKiekis = 0;
 
     getline(ssIn, eilute);
-    eilute.erase(0, 52);
     ssTemp << eilute;
 
     while (!ssTemp.eof()) {
@@ -131,6 +143,8 @@ void skaityti_faila() {
 
         pazymiuKiekis++;
     }
+
+    pazymiuKiekis -= 2;     // Atimami vardas ir pavarde, kurie buvo nuskaityti pradzioje.
 
     if (pazymiuKiekis < 2) {
         cout << "Faile turi buti nurodytas bent vienas namu darbu ir egzamino pazymys." << endl;
@@ -147,11 +161,13 @@ void skaityti_faila() {
 
         for (int i = 0; i < pazymiuKiekis; i++) {
             ssIn >> pazymys;
+
             if (!ssIn || pazymys < 0 || pazymys > 10) {
                 cout << "Klaida! Studento " << stud.vardas << " " << stud.pavarde << " duomenys ivesti neteisingai." << endl;
                 ssIn.clear();
                 return;
             }
+
             stud.ndPazymiai.push_back(pazymys);
         }
 
@@ -167,10 +183,26 @@ void skaityti_faila() {
         stud.ndPazymiai.clear();
     }
 
-    sort(grupe.begin(), grupe.end(), palyginti_studentus);
+    sort(grupe.begin(), grupe.end(), palyginti_vidurkius);
+    auto splitItr = std::find_if(grupe.begin(), grupe.end(), surasti_maziausia);
     
-    stringstream ssOut;
+    vector<Studentas> protingi;
+    protingi.assign(splitItr, grupe.end());
+    grupe.resize(grupe.size() - protingi.size());
+    grupe.shrink_to_fit();
 
+    sort(grupe.begin(), grupe.end(), palyginti_studentus);
+    sort(protingi.begin(), protingi.end(), palyginti_studentus);
+
+    isvesti_faila(grupe, "vargsai");
+    isvesti_faila(protingi, "protingi");
+    
+    grupe.clear();
+    protingi.clear();
+}
+
+void isvesti_faila(vector<Studentas>& grupe, string failoPav) {
+    stringstream ssOut;
     ssOut << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     ssOut << string(80, '-') << endl; 
 
@@ -179,9 +211,7 @@ void skaityti_faila() {
         << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
     }
 
-    grupe.clear();
-
-    ofstream fout("apdorota.txt");
+    ofstream fout(failoPav + ".txt");
     fout << ssOut.rdbuf();
     fout.close();
 }
@@ -222,4 +252,20 @@ void ivesti_ranka() {
     for (const auto& i : grupe) spausdinti(i);
 
     grupe.clear();
+}
+
+void generuoti_failus() {
+    int ndKiekis;
+    cout << "Kiek namu darbu pazymiu norite sugeneruoti kiekvienam studentui? "; cin >> ndKiekis;
+
+    for (int i = 1000; i <= 10000000; i *= 10) {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        generuoti_faila(i, ndKiekis);
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);   
+        cout << "Failo su " << i << " studentu generavimas uztruko " << (diff.count() / 1000.0) << "sek." << endl;
+
+    }
 }

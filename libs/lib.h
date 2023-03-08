@@ -7,7 +7,9 @@
 #include <random>
 #include <numeric>
 #include <fstream>
+#include <string>
 #include <sstream>
+#include <chrono>
 
 using std::cout;
 using std::cin;
@@ -23,6 +25,7 @@ using std::setprecision;
 using std::copy;
 using std::swap;
 using std::string;
+using std::to_string;
 using std::vector;
 using std::accumulate;
 using std::sort;

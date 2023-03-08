@@ -3,8 +3,8 @@
 
 int main() {
     char ivestiesBudas;
-    cout << "Ar studentus norite vesti ranka, ar skaityti is failo? (r - ranka, f - is failo) "; cin >> ivestiesBudas;
-    while (ivestiesBudas != 'r' && ivestiesBudas != 'f') {
+    cout << "Kaip norite vykdyti studentu duomenu ivesti? (r - ivesti ranka, f - skaityti is failo, g - generuoti failus) "; cin >> ivestiesBudas;
+    while (ivestiesBudas != 'r' && ivestiesBudas != 'f' && ivestiesBudas != 'g') {
         cout << "Neteisinga ivestis, bandykite dar karta: ";
 
         cin.ignore(80, '\n');
@@ -14,7 +14,8 @@ int main() {
     }
 
     if (ivestiesBudas == 'r') ivesti_ranka();
-    else skaityti_faila();
+    else if (ivestiesBudas == 'f') skaityti_faila();
+    else generuoti_failus();
 
     return 0;
 }
