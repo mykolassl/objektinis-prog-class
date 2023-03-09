@@ -191,8 +191,8 @@ void skaityti_faila() {
     grupe.resize(grupe.size() - protingi.size());
     grupe.shrink_to_fit();
 
-    sort(grupe.begin(), grupe.end(), palyginti_studentus);
-    sort(protingi.begin(), protingi.end(), palyginti_studentus);
+    // sort(grupe.begin(), grupe.end(), palyginti_vardus);
+    // sort(protingi.begin(), protingi.end(), palyginti_vardus);
 
     isvesti_faila(grupe, "vargsai");
     isvesti_faila(protingi, "protingi");
@@ -247,7 +247,7 @@ void ivesti_ranka() {
     cout << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     cout << string(80, '-') << endl; 
 
-    sort(grupe.begin(), grupe.end(), palyginti_studentus);
+    sort(grupe.begin(), grupe.end(), palyginti_vardus);
 
     for (const auto& i : grupe) spausdinti(i);
 
@@ -257,15 +257,22 @@ void ivesti_ranka() {
 void generuoti_failus() {
     int ndKiekis;
     cout << "Kiek namu darbu pazymiu norite sugeneruoti kiekvienam studentui? "; cin >> ndKiekis;
+    while (!cin || ndKiekis <= 0) {
+        cout << "Neteisinga ivestis. Bandykite dar karta: ";
+
+        cin.clear();
+        cin.ignore(80, '\n');
+
+        cin >> ndKiekis;
+    }
 
     for (int i = 1000; i <= 10000000; i *= 10) {
-        auto start = std::chrono::high_resolution_clock::now();
+        auto pradzia = std::chrono::high_resolution_clock::now();
 
         generuoti_faila(i, ndKiekis);
 
-        auto end = std::chrono::high_resolution_clock::now();
-        auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);   
-        cout << "Failo su " << i << " studentu generavimas uztruko " << (diff.count() / 1000.0) << "sek." << endl;
-
+        auto pabaiga = std::chrono::high_resolution_clock::now();
+        auto skirtumas = std::chrono::duration_cast<std::chrono::milliseconds>(pabaiga - pradzia);   
+        cout << "Failo su " << i << " studentu generavimas uztruko " << (skirtumas.count() / 1000.0) << "sek." << endl;
     }
 }

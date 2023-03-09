@@ -42,7 +42,7 @@ double apskaiciuoti_mediana(Studentas stud) {
     }
 }
 
-bool palyginti_studentus(const Studentas& stud1, const Studentas& stud2) {
+bool palyginti_vardus(const Studentas& stud1, const Studentas& stud2) {
     return stud2.vardas > stud1.vardas;
 }
 
