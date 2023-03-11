@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <chrono>
+#include <execution>
 
 using std::cout;
 using std::cin;
@@ -29,6 +30,10 @@ using std::to_string;
 using std::vector;
 using std::accumulate;
 using std::sort;
+using std::find_if;
 using std::random_device;
 using std::mt19937;
 using std::uniform_int_distribution;
+
+using namespace std::execution;
+using namespace std::chrono;

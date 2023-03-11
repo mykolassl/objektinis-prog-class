@@ -25,7 +25,6 @@ const string pavardesMot[varduKiekis] = {
     "Pociute", "Savickaite", "Stonkaite", "Petrauskaite",
     "Paulauskaite", "Jankauskaite", "Zukauskaite", "Vasiliauskaite"};
 
-
 double apskaiciuoti_vidurki(Studentas stud) {
     int sum = accumulate(stud.ndPazymiai.begin(), stud.ndPazymiai.end(), 0);
     
@@ -33,7 +32,7 @@ double apskaiciuoti_vidurki(Studentas stud) {
 }
 
 double apskaiciuoti_mediana(Studentas stud) {
-    sort(stud.ndPazymiai.begin(), stud.ndPazymiai.end());
+    sort(par, stud.ndPazymiai.begin(), stud.ndPazymiai.end());
 
     if (stud.ndPazymiai.size() % 2 == 1) {
         return stud.ndPazymiai[stud.ndPazymiai.size() / 2];
@@ -48,6 +47,10 @@ bool palyginti_vardus(const Studentas& stud1, const Studentas& stud2) {
 
 bool palyginti_vidurkius(const Studentas& stud1, const Studentas& stud2) {
     return stud2.galutinis_vid > stud1.galutinis_vid;
+}
+
+bool surasti_maziausia(Studentas stud) {
+    return stud.galutinis_vid >= 5;
 }
 
 void generuoti_pazymius(Studentas& stud) {

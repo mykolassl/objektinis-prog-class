@@ -99,13 +99,12 @@ void spausdinti(const Studentas stud) {
     << setw(20) << fixed << setprecision(2) << stud.galutinis_vid << setw(20) << stud.galutinis_med << endl;
 }
 
-bool surasti_maziausia(Studentas stud) {
-    return stud.galutinis_vid >= 5;
-}
-
 void skaityti_faila() {
     stringstream ssIn;
     string failoPav;
+
+    time_point<high_resolution_clock> pradzia, pabaiga;
+    milliseconds visasLaikas = milliseconds::zero(), skirtumas;
 
     while (true) {
         try {
@@ -114,6 +113,8 @@ void skaityti_faila() {
 
             cin >> failoPav;
 
+            pradzia = high_resolution_clock::now();
+
             ifstream fin;
             fin.exceptions(ifstream::failbit | ifstream::badbit);
             fin.open(failoPav);
@@ -121,6 +122,12 @@ void skaityti_faila() {
             ssIn << fin.rdbuf();
             
             fin.close();
+
+            pabaiga = high_resolution_clock::now();
+            skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
+            visasLaikas += skirtumas;
+            cout << "Failo skaitymas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+
             break;
         } catch (...) {
             cout << "Failas pavadinimu " << failoPav << " nerastas. Bandykite dar Karta." << endl << endl;
@@ -131,6 +138,8 @@ void skaityti_faila() {
     string eilute;
     stringstream ssTemp;
     int pazymiuKiekis = 0;
+
+    pradzia = high_resolution_clock::now();
 
     getline(ssIn, eilute);
     ssTemp << eilute;
@@ -179,24 +188,41 @@ void skaityti_faila() {
 
         ssIn.ignore(INT_MAX, '\n');
         grupe.push_back(stud);
-        
+
         stud.ndPazymiai.clear();
     }
 
-    sort(grupe.begin(), grupe.end(), palyginti_vidurkius);
-    auto splitItr = std::find_if(grupe.begin(), grupe.end(), surasti_maziausia);
-    
-    vector<Studentas> protingi;
-    protingi.assign(splitItr, grupe.end());
+    pabaiga = high_resolution_clock::now();
+    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
+    visasLaikas += skirtumas;
+    cout << "Failo duomenu apdorojimas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+
+    pradzia = high_resolution_clock::now();
+
+    sort(par, grupe.begin(), grupe.end(), palyginti_vidurkius);
+    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
+
+    vector<Studentas> protingi(splitItr, grupe.end());
     grupe.resize(grupe.size() - protingi.size());
     grupe.shrink_to_fit();
+    
+    pabaiga = high_resolution_clock::now();
+    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
+    visasLaikas += skirtumas;
+    cout << "Studentu rusiavimas i vargsus ir protingus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
 
-    // sort(grupe.begin(), grupe.end(), palyginti_vardus);
-    // sort(protingi.begin(), protingi.end(), palyginti_vardus);
+    pradzia = high_resolution_clock::now();
 
     isvesti_faila(grupe, "vargsai");
     isvesti_faila(protingi, "protingi");
+
+    pabaiga = high_resolution_clock::now();
+    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
+    visasLaikas += skirtumas;
+    cout << "Vargsu ir protingu isvedimas i du failus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
     
+    cout << "Is viso failo apdorojimas uztruko " << visasLaikas.count() / 1000.0 << " sekundes." << endl;
+
     grupe.clear();
     protingi.clear();
 }
@@ -273,6 +299,6 @@ void generuoti_failus() {
 
         auto pabaiga = std::chrono::high_resolution_clock::now();
         auto skirtumas = std::chrono::duration_cast<std::chrono::milliseconds>(pabaiga - pradzia);   
-        cout << "Failo su " << i << " studentu generavimas uztruko " << (skirtumas.count() / 1000.0) << "sek." << endl;
+        cout << "Failo su " << i << " studentu generavimas uztruko " << (skirtumas.count() / 1000.0) << "s" << endl;
     }
 }

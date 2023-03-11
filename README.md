@@ -9,6 +9,27 @@ Studentų duomenų bazė. Studentų duomenis galima įvesti ranka arba skaityti 
 
 Vietoje vidurkio taip pat galima pasirinkti studento namų darbų pažymių medianą.
 
+## Release v0.4
+
+Ketvirtoji programos versija.
+
+### Kas pasikeitė:
+
+1. Pridėtas pasirinkimas generuoti atsitiktinius sąrašus nuo 1000 iki 10000000 studentų.
+2. Pridėtas studentų paskirstymas į du failus. Faile `protingi.txt` išvedamas studentų sąrašas, kurių vidurkis >=5, o faile `vargsai.txt` studentų, kurių vidurkis <5.
+
+### Programos spartos analizė
+
+Visi testavimo atvejai pateikti neturint jokių pradinių duomenų failų, o studentai buvo generuojami su penkiais namų darbų pažymiais ir vienu egzamino balu. Visi matavimai pateikti sekundėmis.
+
+| Studentų kiekis | Failo generavimas | Failo skaitymas | Duomenų apdorojimas | Rušiavimas į vargšus ir protingus | Išvedimas į du failus |
+| --------------- | ----------------- | --------------- | ------------------- | --------------------------------- | --------------------- |
+| 1 000           | ~0.003            |
+| 10 000          | ~0.01             |
+| 100 000         | ~0.09             |
+| 1 000 000       | ~0.85             |
+| 10 000 000      | ~9,85             |
+
 ## Release v0.3
 
 Trečioji programos versija.
