@@ -20,15 +20,15 @@ Ketvirtoji programos versija.
 
 ### Programos spartos analizė
 
-Visi testavimo atvejai pateikti neturint jokių pradinių duomenų failų, o studentai buvo generuojami su penkiais namų darbų pažymiais ir vienu egzamino balu. Visi matavimai pateikti sekundėmis.
+Visi testavimo atvejai pateikti neturint jokių pradinių duomenų failų, o studentai buvo generuojami su penkiais namų darbų pažymiais ir vienu egzamino balu. Visi matavimų vidurkiai pateikti sekundėmis.
 
-| Studentų kiekis | Failo generavimas | Failo skaitymas | Duomenų apdorojimas | Rušiavimas į vargšus ir protingus | Išvedimas į du failus |
-| --------------- | ----------------- | --------------- | ------------------- | --------------------------------- | --------------------- |
-| 1 000           | ~0.003            |
-| 10 000          | ~0.01             |
-| 100 000         | ~0.09             |
-| 1 000 000       | ~0.85             |
-| 10 000 000      | ~9,85             |
+| Studentų kiekis | Failo generavimas | Failo skaitymas | Duomenų apdorojimas | Studentų rūšiavimas | Išvedimas į du failus | Visas programos veikimas |
+| --------------- | ----------------- | --------------- | ------------------- | ------------------- | --------------------- | ------------------------ |
+| 1 000           | 0.003             | 0.004           | 0.003               | 0.001               | 0.004                 | 0.011                    |
+| 10 000          | 0.01              | 0.03            | 0.03                | 0.004               | 0.02                  | 0.085                    |
+| 100 000         | 0.09              | 0.1             | 0.14                | 0.055               | 0.17                  | 0.47                     |
+| 1 000 000       | 0.85              | 0.8             | 1.3                 | 0.65                | 1.7                   | 4.45                     |
+| 10 000 000      | 9.85              | 7.8             | 14.2                | 7.7                 | 16.5                  | 46.2                     |
 
 ## Release v0.3
 

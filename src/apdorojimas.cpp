@@ -293,12 +293,12 @@ void generuoti_failus() {
     }
 
     for (int i = 1000; i <= 10000000; i *= 10) {
-        auto pradzia = std::chrono::high_resolution_clock::now();
+        auto pradzia = high_resolution_clock::now();
 
         generuoti_faila(i, ndKiekis);
 
-        auto pabaiga = std::chrono::high_resolution_clock::now();
-        auto skirtumas = std::chrono::duration_cast<std::chrono::milliseconds>(pabaiga - pradzia);   
+        auto pabaiga = high_resolution_clock::now();
+        auto skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);   
         cout << "Failo su " << i << " studentu generavimas uztruko " << (skirtumas.count() / 1000.0) << "s" << endl;
     }
 }
