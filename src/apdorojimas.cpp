@@ -101,23 +101,36 @@ void spausdinti(const Studentas stud) {
 
 void skaityti_faila() {
     stringstream ssIn;
-    string failoPav;
-
+   
     time_point<high_resolution_clock> pradzia, pabaiga;
     milliseconds visasLaikas = milliseconds::zero(), skirtumas;
 
+    string failas;
+    int failoIndeksas;
+    vector<string> failuSarasas;
+
+    system("dir /b *.txt > sarasas.txt");
+    ifstream fsar("sarasas.txt");
+    while (getline(fsar, failas)) {
+        if (failas != "sarasas.txt") failuSarasas.push_back(failas);
+    }
+    fsar.close();
+    system("del sarasas.txt");
+
+    for (int i = 0; i < failuSarasas.size(); i++) {
+        cout << i + 1 << ". " << failuSarasas.at(i) << endl;
+    }
+    cout << "Iveskite failo numeri is auksciau pateikto saraso: ";
+    
     while (true) {
         try {
-            cout << "Iveskite pilna failo pavadinima is zemiau pateikto saraso:" << endl;
-            system("dir /b *.txt");
-
-            cin >> failoPav;
+            cin >> failoIndeksas;
 
             pradzia = high_resolution_clock::now();
 
             ifstream fin;
             fin.exceptions(ifstream::failbit | ifstream::badbit);
-            fin.open(failoPav);
+            fin.open(failuSarasas.at(failoIndeksas - 1));
 
             ssIn << fin.rdbuf();
             
@@ -130,7 +143,9 @@ void skaityti_faila() {
 
             break;
         } catch (...) {
-            cout << "Failas pavadinimu " << failoPav << " nerastas. Bandykite dar Karta." << endl << endl;
+            cin.clear();
+            cin.ignore(80, '\n');
+            cout << "Skaicius privalo buti intervale nuo 1 iki " << failuSarasas.size() << ", bandykite dar karta: ";
         }
     }
 
@@ -200,16 +215,23 @@ void skaityti_faila() {
     pradzia = high_resolution_clock::now();
 
     sort(par, grupe.begin(), grupe.end(), palyginti_vidurkius);
-    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
-
-    vector<Studentas> protingi(splitItr, grupe.end());
-    grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
     
     pabaiga = high_resolution_clock::now();
     skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
     visasLaikas += skirtumas;
-    cout << "Studentu rusiavimas i vargsus ir protingus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+    cout << "Studentu rikiavimas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+
+    pradzia = high_resolution_clock::now();
+
+    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
+    vector<Studentas> protingi(splitItr, grupe.end());
+    grupe.resize(grupe.size() - protingi.size());
+    grupe.shrink_to_fit();
+
+    pabaiga = high_resolution_clock::now();
+    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
+    visasLaikas += skirtumas;
+    cout << "Studentu atskyrimas i vargsus ir protingus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
 
     pradzia = high_resolution_clock::now();
 
