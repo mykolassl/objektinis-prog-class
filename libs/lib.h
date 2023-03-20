@@ -11,7 +11,9 @@
 #include <sstream>
 #include <chrono>
 #include <execution>
+#include <deque>
 
+// ************* I/O *************
 using std::cout;
 using std::cin;
 using std::ifstream;
@@ -23,17 +25,25 @@ using std::right;
 using std::setw;
 using std::fixed;
 using std::setprecision;
-using std::copy;
-using std::swap;
-using std::string;
-using std::to_string;
-using std::vector;
+
+// ************* Algoritmai *************
 using std::accumulate;
 using std::sort;
+using std::swap;
+using std::copy;
 using std::find_if;
+
+// ************* Konteineriai *************
+using std::vector;
+using std::deque;
+using std::string;
+
+// ************* Pagalbiniai *************
+using std::to_string;
 using std::random_device;
 using std::mt19937;
 using std::uniform_int_distribution;
 
+// ************* Namespaces *************
 using namespace std::execution;
 using namespace std::chrono;
