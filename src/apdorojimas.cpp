@@ -254,10 +254,15 @@ void isvesti_faila(vector<Studentas>& grupe, string failoPav) {
     ssOut << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     ssOut << string(80, '-') << endl; 
 
+    char eilute[100];
+    string output = "";
+
     for (auto& i : grupe) {
-        ssOut << left << setw(20) << i.vardas << setw(20) << i.pavarde 
-        << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
+        sprintf(eilute, "%-20s%-20s%-20.2f%-20.2f\n", i.vardas.c_str(), i.pavarde.c_str(), i.galutinis_vid, i.galutinis_med);
+        output += eilute;
     }
+
+    ssOut << output;
 
     ofstream fout(failoPav + ".txt");
     fout << ssOut.rdbuf();
