@@ -10,7 +10,6 @@
 #include <string>
 #include <sstream>
 #include <chrono>
-#include <execution>
 #include <deque>
 
 // ************* I/O *************
@@ -45,5 +44,4 @@ using std::mt19937;
 using std::uniform_int_distribution;
 
 // ************* Namespaces *************
-using namespace std::execution;
 using namespace std::chrono;

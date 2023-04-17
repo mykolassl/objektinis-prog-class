@@ -32,7 +32,7 @@ double apskaiciuoti_vidurki(Studentas stud) {
 }
 
 double apskaiciuoti_mediana(Studentas stud) {
-    sort(par, stud.ndPazymiai.begin(), stud.ndPazymiai.end());
+    sort(stud.ndPazymiai.begin(), stud.ndPazymiai.end());
 
     if (stud.ndPazymiai.size() % 2 == 1) {
         return stud.ndPazymiai[stud.ndPazymiai.size() / 2];

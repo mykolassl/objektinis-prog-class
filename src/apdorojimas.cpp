@@ -228,7 +228,7 @@ void skaityti_faila() {
 
     pradzia = high_resolution_clock::now();
 
-    sort(par, grupe.begin(), grupe.end(), palyginti_vidurkius);
+    sort(grupe.begin(), grupe.end(), palyginti_vidurkius);
     
     pabaiga = high_resolution_clock::now();
     skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
