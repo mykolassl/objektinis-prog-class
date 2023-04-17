@@ -105,6 +105,20 @@ void skaityti_faila() {
     time_point<high_resolution_clock> pradzia, pabaiga;
     milliseconds visasLaikas = milliseconds::zero(), skirtumas;
 
+    int dalinimo_budas;
+    cout << "1. Daznu atveju letesnis, panaudoja daugiau atminties." << endl
+         << "2. Daznu atveju greitesnis, panaudoja maziau atminties." << endl;
+    cout << "Pasirinkite viena is auksciau pateiktu dalinimo budu: "; cin >> dalinimo_budas;
+    
+    while (dalinimo_budas != 1 && dalinimo_budas != 2) {
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
+
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+
+        cin >> dalinimo_budas;
+    }
+
     string failas;
     int failoIndeksas;
     vector<string> failuSarasas;
@@ -214,7 +228,7 @@ void skaityti_faila() {
 
     pradzia = high_resolution_clock::now();
 
-    sort(par, grupe.begin(), grupe.end(), palyginti_vidurkius);
+    sort(grupe.begin(), grupe.end(), palyginti_vidurkius);
     
     pabaiga = high_resolution_clock::now();
     skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
@@ -223,10 +237,10 @@ void skaityti_faila() {
 
     pradzia = high_resolution_clock::now();
 
-    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
-    vector<Studentas> protingi(splitItr, grupe.end());
-    grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
+    vector<Studentas> protingi, vargsai;
+
+    if (dalinimo_budas == 1) dalinimas_1(grupe, vargsai, protingi);
+    else dalinimas_2(grupe, protingi);
 
     pabaiga = high_resolution_clock::now();
     skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
@@ -235,7 +249,7 @@ void skaityti_faila() {
 
     pradzia = high_resolution_clock::now();
 
-    isvesti_faila(grupe, "vargsai");
+    isvesti_faila(dalinimo_budas == 1 ? vargsai : grupe, "vargsai");
     isvesti_faila(protingi, "protingi");
 
     pabaiga = high_resolution_clock::now();
@@ -247,20 +261,22 @@ void skaityti_faila() {
 
     grupe.clear();
     protingi.clear();
+    vargsai.clear();
 }
 
 void isvesti_faila(vector<Studentas>& grupe, string failoPav) {
-    stringstream ssOut;
-    ssOut << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
-    ssOut << string(80, '-') << endl; 
+    char eilute[100];
+    string output = "";
 
     for (auto& i : grupe) {
-        ssOut << left << setw(20) << i.vardas << setw(20) << i.pavarde 
-        << setw(20) << fixed << setprecision(2) << i.galutinis_vid << setw(20) << i.galutinis_med << endl;
+        sprintf(eilute, "%-20s%-20s%-20.2f%-20.2f\n", i.vardas.c_str(), i.pavarde.c_str(), i.galutinis_vid, i.galutinis_med);
+        output += eilute;
     }
 
+    sprintf(eilute, "%-20s%-20s%-20s%-20s", "Vardas", "Pavarde", "Galutinis (vid.)", "Galutinis (med.)");
+
     ofstream fout(failoPav + ".txt");
-    fout << ssOut.rdbuf();
+    fout << eilute << endl << string(80, '-') << endl << output;
     fout.close();
 }
 
@@ -323,4 +339,19 @@ void generuoti_failus() {
         auto skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);   
         cout << "Failo su " << i << " studentu generavimas uztruko " << (skirtumas.count() / 1000.0) << "s" << endl;
     }
+}
+
+void dalinimas_1(vector<Studentas>& grupe, vector<Studentas>& vargsai, vector<Studentas>& protingi) {
+    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
+    vargsai.assign(grupe.begin(), splitItr);
+    protingi.assign(splitItr, grupe.end());
+    grupe.clear();
+}
+
+void dalinimas_2(vector<Studentas>& grupe, vector<Studentas>& protingi) {
+    auto splitItr = find_if(grupe.begin(), grupe.end(), surasti_maziausia);
+    protingi.assign(splitItr, grupe.end());
+
+    grupe.resize(grupe.size() - protingi.size());
+    grupe.shrink_to_fit();
 }

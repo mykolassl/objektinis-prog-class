@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.26)
+project(Laboratorinis)
+include_directories(libs)
+file(GLOB SOURCES "src/*.cpp")
+add_executable(Laboratorinis ${SOURCES})
