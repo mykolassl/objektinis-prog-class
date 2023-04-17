@@ -106,8 +106,8 @@ void skaityti_faila() {
     milliseconds visasLaikas = milliseconds::zero(), skirtumas;
 
     int dalinimo_budas;
-    cout << "1. Greitesnis, uzima daugiau atminties." << endl
-         << "2. Letesnis, uzima maziau atminties." << endl;
+    cout << "1. Daznu atveju letesnis, uzima daugiau atminties." << endl
+         << "2. Daznu atveju greitesnis, uzima maziau atminties." << endl;
     cout << "Pasirinkite viena is auksciau pateiktu dalinimo budu: "; cin >> dalinimo_budas;
     
     while (dalinimo_budas != 1 && dalinimo_budas != 2) {

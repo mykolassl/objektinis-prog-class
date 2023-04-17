@@ -4,10 +4,83 @@ VU ISI 1k. 2sem. Objektinio programavimo laboratoriniai darbai.
 
 ## Apie programą
 
-Studentų duomenų bazė. Studentų duomenis galima įvesti ranka arba skaityti iš failo `kursiokai.txt`. Pasirinkus įvedimą ranka, iš pradžių nurodomas namų darbų kiekis, kuris buvo skirtas studentams, po to studentų duomenys įvedami tol, kol į vardo eilutę neįrašoma "stop". Namų darbų ir egzamino pažymius galima įvesti pačiam arba pasirinkti atsitiktinį skaičių generavimą (nuo 1 iki 10 balų). Įvedant duomenis ranka, galima anksčiau sustabdyti įvestį įrašant "-1" kaip namų darbų pažymį, tačiau vietoje likusių neįvestų pažymių, bus įrašomi nuliai. Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
+Ši programa apdoroja studentų namų darbų bei egzamino pažymius ir išveda jų vardus, pavardes bei galutinius pažymius. Studentų duomenis galima įvesti ranka, skaityti iš jau egzistuojančio failo arba sugeneruoti penkis failus su atsitiktiniais duomenimis.
+
+## Naudojimosi instrukcija
+
+Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą, programa pirmą kartą pasileis automatiškai, norint paleisti programą dar kartą, ją galima rasti aplanke `Debug/Laboratorinis.exe`. Pasileidus programai nurodoma kaip bus įvesti studentų duomenys: įvesti ranka, perskaityti iš failo arba sugeneruoti atsitiktiniai failai.
+
+> ### Įvedimas ranka
+>
+> Pasirinkus įvedimą ranka, iš pradžių nurodomas namų darbų kiekis, kuris buvo skirtas studentams, po to studentų duomenys įvedami tol, kol į vardo eilutę neįrašoma "stop". Namų darbų ir egzamino pažymius galima įvesti pačiam arba pasirinkti atsitiktinį skaičių generavimą (nuo 1 iki 10 balų). Įvedant duomenis ranka, galima anksčiau sustabdyti įvestį įrašant "-1" kaip namų darbų pažymį, tačiau vietoje likusių neįvestų pažymių, bus įrašomi nuliai.
+
+> ### Skaitymas iš failo
+>
+> Pasirinkus skaitymą iš failo, iš sąrašo nurodomas failo numeris, kurį norima nuskaityti. Tada pasirenkamas vienas iš dviejų studentų konteinerio dalinimo būdų. Pirmas variantas vienu programos veikimo metu trumpam užima daugiau atminties ir kai kuriais atvejais yra lėtesnis, antras variantas panaudoja mažiau atminties ir yra greitesnis. Atlikus failo apdorojimą, programa išveda du failus `protingi.txt` ir `vargsai.txt`, kuriuose atitinkamai pateikti studentai, kurių galutinis balas pagal vidurkį yra >=5 ir <5.
+
+> ### Failų generavimas
+>
+> Pasirinkus failų generavimą, nurodomas studentam užduotų namų darbų kiekis. Baigus generavimą, aplanke atsiranda penki failai, kuriuose sugeneruotas studentų skaičius yra nuo 1 000 iki 10 000 000.
+
+Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
 ![](https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz)
 
-Vietoje vidurkio taip pat galima pasirinkti studento namų darbų pažymių medianą.
+## Release v1.0
+
+Šeštoji programos versija.
+
+### Kas pasikeitė:
+
+1. Pagreitintas rašymas į failą.
+2. Pridėtas CMake build failas.
+3. Pridėtas studentų konteinerio dalinimo būdo pasirinkimas.
+
+### Spartos analizė
+
+<details>
+<summary>Vector</summary>
+
+| Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes\* | Išvedimas į du failus | Visas programos veikimas\* |
+| --------------- | --------------- | ------------------- | ------------------- | ---------------------------------- | --------------------- | -------------------------- |
+| 1 000           | 0.004           | 0.003               | 0.0009              | 0.0006 / 0.0006                    | 0.003                 | 0.011 / 0.011              |
+| 10 000          | 0.03            | 0.03                | 0.001               | 0.002 / 0.001                      | 0.014                 | 0.081 / 0.08               |
+| 100 000         | 0.1             | 0.14                | 0.055               | 0.04 / 0.027                       | 0.11                  | 0.46 / 0.45                |
+| 1 000 000       | 0.8             | 1.3                 | 0.58                | 0.4 / 0.26                         | 1.1                   | 4.18 / 3.95                |
+| 10 000 000      | 8.5             | 13.6                | 4.5                 | 3.9 / 3.2                          | 9.5                   | 41.2 / 39.3                |
+
+\* Pateikti du dalinimo variantų rezultatai - pirmas / antras.
+
+</details>
+
+<details>
+<summary>Deque</summary>
+
+| Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes\* | Išvedimas į du failus | Visas programos veikimas\* |
+| --------------- | --------------- | ------------------- | ------------------- | ---------------------------------- | --------------------- | -------------------------- |
+| 1 000           | 0.001           | 0.002               | 0.0006              | 0.0007                             | 0.0045                | 0.0075                     |
+| 10 000          | 0.012           | 0.016               | 0.0025              | 0.004                              | 0.024                 | 0.06                       |
+| 100 000         | 0.096           | 0.16                | 0.05                | 0.068                              | 0.18                  | 0.55                       |
+| 1 000 000       | 0.85            | 1.5                 | 0.62                | 0.51                               | 1.63                  | 5.1                        |
+| 10 000 000      | 8.3             | 13.94               | 8.9                 | 4.85                               | 17.8                  | 53.8                       |
+
+\* Pateikti du dalinimo variantų rezultatai - pirmas / antras.
+
+</details>
+
+<details>
+<summary>List</summary>
+
+| Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes\* | Išvedimas į du failus | Visas programos veikimas\* |
+| --------------- | --------------- | ------------------- | ------------------- | ---------------------------------- | --------------------- | -------------------------- |
+| 1 000           | 0.0015          | 0.002               | 0.0007              | 0.0008                             | 0.003                 | 0.007                      |
+| 10 000          | 0.014           | 0.019               | 0.003               | 0.005                              | 0.03                  | 0.07                       |
+| 100 000         | 0.1             | 0.15                | 0.045               | 0.06                               | 0.18                  | 0.52                       |
+| 1 000 000       | 0.86            | 1.43                | 0.65                | 0.5                                | 1.7                   | 5.2                        |
+| 10 000 000      | 8.7             | 15                  | 9.2                 | 4.9                                | 18.5                  | 57.6                       |
+
+\* Pateikti du dalinimo variantų rezultatai - pirmas / antras.
+
+</details>
 
 ## Release v0.5
 
