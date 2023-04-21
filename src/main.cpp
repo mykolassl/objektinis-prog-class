@@ -17,5 +17,7 @@ int main() {
     else if (ivestiesBudas == 'f') skaityti_faila();
     else generuoti_failus();
 
+    cout << "END";
+
     return 0;
 }
