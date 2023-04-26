@@ -25,42 +25,40 @@ const string pavardesMot[varduKiekis] = {
     "Pociute", "Savickaite", "Stonkaite", "Petrauskaite",
     "Paulauskaite", "Jankauskaite", "Zukauskaite", "Vasiliauskaite"};
 
-double apskaiciuoti_vidurki(Studentas stud) {
-    int sum = accumulate(stud.ndPazymiai.begin(), stud.ndPazymiai.end(), 0);
+double apskaiciuoti_vidurki(vector<int> ndPazymiai) {
+    int sum = accumulate(ndPazymiai.begin(), ndPazymiai.end(), 0);
     
-    return (double)sum / stud.ndPazymiai.size();
+    return (double)sum / ndPazymiai.size();
 }
 
-double apskaiciuoti_mediana(Studentas stud) {
-    sort(stud.ndPazymiai.begin(), stud.ndPazymiai.end());
+double apskaiciuoti_mediana(vector<int> ndPazymiai) {
+    sort(ndPazymiai.begin(), ndPazymiai.end());
 
-    if (stud.ndPazymiai.size() % 2 == 1) {
-        return stud.ndPazymiai[stud.ndPazymiai.size() / 2];
+    if (ndPazymiai.size() % 2 == 1) {
+        return ndPazymiai[ndPazymiai.size() / 2];
     } else {
-        return (stud.ndPazymiai[stud.ndPazymiai.size() / 2] + stud.ndPazymiai[stud.ndPazymiai.size() / 2 - 1]) / 2.0;
+        return (ndPazymiai[ndPazymiai.size() / 2] + ndPazymiai[ndPazymiai.size() / 2 - 1]) / 2.0;
     }
 }
 
-bool palyginti_vardus(const Studentas& stud1, const Studentas& stud2) {
-    return stud2.vardas > stud1.vardas;
-}
+// PAKEISTI I LAMBDUS
 
-bool palyginti_vidurkius(const Studentas& stud1, const Studentas& stud2) {
-    return stud2.galutinis_vid > stud1.galutinis_vid;
-}
+// bool palyginti_vardus(const Studentas& stud1, const Studentas& stud2) {
+//     return stud2.vardas() > stud1.vardas();
+// }
 
-bool surasti_maziausia(Studentas stud) {
-    return stud.galutinis_vid >= 5;
-}
+// bool palyginti_vidurkius(const Studentas& stud1, const Studentas& stud2) {
+//     return stud2 > stud1;
+// }
 
-void generuoti_pazymius(Studentas& stud) {
-    random_device r_d;
-    mt19937 mt(r_d());
-    uniform_int_distribution<int> dist(1, 10);
+// void generuoti_pazymius(Studentas& stud) {
+//     random_device r_d;
+//     mt19937 mt(r_d());
+//     uniform_int_distribution<int> dist(1, 10);
 
-    for (auto& i : stud.ndPazymiai) i = dist(mt);
-    stud.egzPazymys = dist(mt);
-}
+//     for (auto& i : stud.ndPazymiai) i = dist(mt);
+//     stud.egzPazymys = dist(mt);
+// }
 
 void generuoti_faila(int studKiekis, int ndKiekis) {
     random_device r_d;
