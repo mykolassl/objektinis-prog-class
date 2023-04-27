@@ -1,23 +1,24 @@
 #include "../libs/lib.h"
 #include "../libs/studentas.h"
 #include "../libs/pagalbines_funk.h"
+#include "../libs/timer.hpp"
 
-void dalinimas_1(vector<Studentas>& grupe, vector<Studentas>& vargsai, vector<Studentas>& protingi) {
+void dalinimas_1(Konteineris auto& grupe, Konteineris auto& vargsai, Konteineris auto& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) {return stud.galutinis_vid() >= 5;});
     vargsai.assign(grupe.begin(), splitItr);
     protingi.assign(splitItr, grupe.end());
     grupe.clear();
 }
 
-void dalinimas_2(vector<Studentas>& grupe, vector<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) {return stud.galutinis_vid() >= 5;});
+void dalinimas_2(Konteineris auto& grupe, Konteineris auto& protingi) {
+    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
     protingi.assign(splitItr, grupe.end());
 
     grupe.resize(grupe.size() - protingi.size());
     grupe.shrink_to_fit();
 }
 
-void isvesti_faila(vector<Studentas>& grupe, string failoPav) {
+void isvesti_faila(Konteineris auto& grupe, string failoPav) {
     char eilute[100];
     string output = "";
 
@@ -39,6 +40,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     string vardas, pavarde;
     int egzPazymys;
     cout << "Iveskite studento varda: "; cin >> vardas;
+    stud.vardas(vardas);
 
     cin.ignore(80, '\n');
     cin.clear();
@@ -51,6 +53,7 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     }
 
     cout << "Iveskite studento pavarde: "; cin >> pavarde;
+    stud.pavarde(pavarde);
 
     cin.ignore(80, '\n');
     cin.clear();
@@ -74,13 +77,12 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cin.clear();
     cin.ignore(80, '\n');
 
-    // if (arGeneruoti == 't') {
-    //     generuoti_pazymius(stud);
-    //     stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
-    //     stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
-    //     cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
-    //     return;
-    // } 
+    if (arGeneruoti == 't') {
+        generuoti_pazymius(pazymiai, egzPazymys);
+        stud.pazymiai(pazymiai, egzPazymys);
+        cout << "Studento namu darbu bei egzamino rezultatai sekmingai sugeneruoti." << endl << endl;
+        return;
+    } 
 
     cout << "Iveskite iki " << ndKiekis << " pazymiu: ";
 
@@ -123,23 +125,12 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     stud.pavarde(pavarde);
     stud.pazymiai(pazymiai, egzPazymys);
 
-    // stud.egzPazymys = egzPazymys;
-    // stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
-    // stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
-
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void spausdinti(const Studentas stud) {
-    cout << setw(20) << stud.vardas() << setw(20) << stud.pavarde() 
-    << setw(20) << fixed << setprecision(2) << stud.galutinis_vid() << setw(20) << stud.galutinis_med() << endl;
-}
-
 void skaityti_faila() {
+    Timer timer;
     stringstream ssIn;
-   
-    time_point<high_resolution_clock> pradzia, pabaiga;
-    milliseconds visasLaikas = milliseconds::zero(), skirtumas;
 
     int dalinimo_budas;
     cout << "1. Daznu atveju letesnis, panaudoja daugiau atminties." << endl
@@ -176,7 +167,7 @@ void skaityti_faila() {
         try {
             cin >> failoIndeksas;
 
-            pradzia = high_resolution_clock::now();
+            timer.start();
 
             ifstream fin;
             fin.exceptions(ifstream::failbit | ifstream::badbit);
@@ -186,10 +177,8 @@ void skaityti_faila() {
             
             fin.close();
 
-            pabaiga = high_resolution_clock::now();
-            skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
-            visasLaikas += skirtumas;
-            cout << "Failo skaitymas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+            timer.end();
+            timer.print("Failo skaitymas uztruko");
 
             break;
         } catch (...) {
@@ -204,7 +193,7 @@ void skaityti_faila() {
     stringstream ssTemp;
     int pazymiuKiekis = 0;
 
-    pradzia = high_resolution_clock::now();
+    timer.start();
 
     getline(ssIn, eilute);
     ssTemp << eilute;
@@ -225,81 +214,45 @@ void skaityti_faila() {
         return;
     }
 
-    Studentas stud;
+    Studentas stud(pazymiuKiekis);
     vector<Studentas> grupe;
-    string vardas, pavarde;
-    vector<int> pazymiai;
-    int egzaminas, pazymys;
 
     while (!ssIn.eof()) {
-        ssIn >> vardas >> pavarde;
-        stud.pavarde(pavarde);
-        stud.vardas(vardas);
-
-        for (int i = 0; i < pazymiuKiekis; i++) {
-            ssIn >> pazymys;
-
-            if (!ssIn || pazymys < 0 || pazymys > 10) {
-                cout << "Klaida! Studento " << vardas << " " << pavarde << " duomenys ivesti neteisingai." << endl;
-                ssIn.clear();
-                return;
-            }
-
-            pazymiai.push_back(pazymys);
-        }
-
-        // Paskutinis pazymys visada egzamino
-        stud.pazymiai(pazymiai);
-
-        // stud.egzPazymys = stud.ndPazymiai.back();
-        // stud.ndPazymiai.pop_back();
-        // stud.galutinis_vid = 0.4 * apskaiciuoti_vidurki(stud) + 0.6 * stud.egzPazymys;
-        // stud.galutinis_med = 0.4 * apskaiciuoti_mediana(stud) + 0.6 * stud.egzPazymys;
+        ssIn >> stud;      
 
         ssIn.ignore(INT_MAX, '\n');
         grupe.push_back(stud);
-
-        pazymiai.clear();
     }
 
-    pabaiga = high_resolution_clock::now();
-    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
-    visasLaikas += skirtumas;
-    cout << "Failo duomenu apdorojimas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+    timer.end();
+    timer.print("Failo duomenu apdorojimas uztruko");
 
-    pradzia = high_resolution_clock::now();
+    timer.start();
 
     sort(grupe.begin(), grupe.end());
     
-    pabaiga = high_resolution_clock::now();
-    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
-    visasLaikas += skirtumas;
-    cout << "Studentu rikiavimas uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+    timer.end();
+    timer.print("Studentu rikiavimas uztruko");
 
-    pradzia = high_resolution_clock::now();
+    timer.start();
 
     vector<Studentas> protingi, vargsai;
 
     if (dalinimo_budas == 1) dalinimas_1(grupe, vargsai, protingi);
     else dalinimas_2(grupe, protingi);
 
-    pabaiga = high_resolution_clock::now();
-    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
-    visasLaikas += skirtumas;
-    cout << "Studentu atskyrimas i vargsus ir protingus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+    timer.end();
+    timer.print("Studentu atskyrimas i vargsus ir protingus uztruko");
 
-    pradzia = high_resolution_clock::now();
+    timer.start();
 
     isvesti_faila(dalinimo_budas == 1 ? vargsai : grupe, "vargsai");
     isvesti_faila(protingi, "protingi");
 
-    pabaiga = high_resolution_clock::now();
-    skirtumas = duration_cast<milliseconds>(pabaiga - pradzia);
-    visasLaikas += skirtumas;
-    cout << "Vargsu ir protingu isvedimas i du failus uztruko " << skirtumas.count() / 1000.0 << "s" << endl;
+    timer.end();
+    timer.print("Vargsu ir protingu isvedimas i du failus uztruko");
+    timer.print_end("Is viso failo apdorojimas uztruko");
     
-    cout << "Is viso failo apdorojimas uztruko " << visasLaikas.count() / 1000.0 << " sekundes." << endl;
-
     grupe.clear();
     protingi.clear();
     vargsai.clear();
@@ -338,7 +291,7 @@ void ivesti_ranka() {
 
     sort(grupe.begin(), grupe.end());
 
-    for (const auto& i : grupe) spausdinti(i);
+    for (const auto& i : grupe) cout << i << endl;
 
     grupe.clear();
 }

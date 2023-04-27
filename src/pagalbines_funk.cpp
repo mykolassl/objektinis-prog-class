@@ -41,24 +41,14 @@ double apskaiciuoti_mediana(vector<int> ndPazymiai) {
     }
 }
 
-// PAKEISTI I LAMBDUS
+void generuoti_pazymius(vector<int>& ndPazymiai, int& egzaminas) {
+    random_device r_d;
+    mt19937 mt(r_d());
+    uniform_int_distribution<int> dist(1, 10);
 
-// bool palyginti_vardus(const Studentas& stud1, const Studentas& stud2) {
-//     return stud2.vardas() > stud1.vardas();
-// }
-
-// bool palyginti_vidurkius(const Studentas& stud1, const Studentas& stud2) {
-//     return stud2 > stud1;
-// }
-
-// void generuoti_pazymius(Studentas& stud) {
-//     random_device r_d;
-//     mt19937 mt(r_d());
-//     uniform_int_distribution<int> dist(1, 10);
-
-//     for (auto& i : stud.ndPazymiai) i = dist(mt);
-//     stud.egzPazymys = dist(mt);
-// }
+    for (auto& i : ndPazymiai) i = dist(mt);
+    egzaminas = dist(mt);
+}
 
 void generuoti_faila(int studKiekis, int ndKiekis) {
     random_device r_d;

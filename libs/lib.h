@@ -3,14 +3,16 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-#include <vector>
 #include <random>
 #include <numeric>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <chrono>
+#include <vector>
 #include <deque>
+#include <list>
+#include <concepts>
 
 // ************* I/O *************
 using std::cout;
@@ -45,3 +47,9 @@ using std::uniform_int_distribution;
 
 // ************* Namespaces *************
 using namespace std::chrono;
+
+// ************* Concepts **************
+template<typename T>
+concept Konteineris = std::same_as<T, std::vector<typename T::value_type>>
+    || std::same_as<T, std::list<typename T::value_type>>
+    || std::same_as<T, std::deque<typename T::value_type>>; 
