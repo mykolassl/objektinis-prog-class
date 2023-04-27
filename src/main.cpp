@@ -13,9 +13,23 @@ int main() {
         cin >> ivestiesBudas;
     }
 
-    if (ivestiesBudas == 'r') ivesti_ranka();
-    else if (ivestiesBudas == 'f') skaityti_faila();
-    else generuoti_failus();
+    char konteinerioTipas;
+    cout << "Koki konteinerio studentu laikymui norite panaudoti? (v - vector, d - deque, l - list) "; cin >> konteinerioTipas;
+    while (konteinerioTipas != 'v' && konteinerioTipas != 'd' && konteinerioTipas != 'l') {
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
+
+        cin.ignore(80, '\n');
+        cin.clear();
+
+        cin >> konteinerioTipas;
+    }
+
+    // if (konteinerioTipas == 'v') {
+        if (ivestiesBudas == 'r') ivesti_ranka();
+        else if (ivestiesBudas == 'f') skaityti_faila();
+        else generuoti_failus();
+    // }
+
 
     return 0;
 }

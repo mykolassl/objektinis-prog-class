@@ -3,22 +3,22 @@
 #include "../libs/pagalbines_funk.h"
 #include "../libs/timer.hpp"
 
-void dalinimas_1(Konteineris auto& grupe, Konteineris auto& vargsai, Konteineris auto& protingi) {
+void dalinimas_1(list<Studentas>& grupe, list<Studentas>& vargsai, list<Studentas>& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) {return stud.galutinis_vid() >= 5;});
     vargsai.assign(grupe.begin(), splitItr);
     protingi.assign(splitItr, grupe.end());
     grupe.clear();
 }
 
-void dalinimas_2(Konteineris auto& grupe, Konteineris auto& protingi) {
+void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
     protingi.assign(splitItr, grupe.end());
 
     grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
+    // grupe.shrink_to_fit();
 }
 
-void isvesti_faila(Konteineris auto& grupe, string failoPav) {
+void isvesti_faila(list<Studentas>& grupe, string failoPav) {    
     char eilute[100];
     string output = "";
 
@@ -215,7 +215,7 @@ void skaityti_faila() {
     }
 
     Studentas stud(pazymiuKiekis);
-    vector<Studentas> grupe;
+    list<Studentas> grupe, protingi, vargsai;
 
     while (!ssIn.eof()) {
         ssIn >> stud;      
@@ -229,14 +229,12 @@ void skaityti_faila() {
 
     timer.start();
 
-    sort(grupe.begin(), grupe.end());
+    // sort(grupe.begin(), grupe.end());
     
     timer.end();
     timer.print("Studentu rikiavimas uztruko");
 
     timer.start();
-
-    vector<Studentas> protingi, vargsai;
 
     if (dalinimo_budas == 1) dalinimas_1(grupe, vargsai, protingi);
     else dalinimas_2(grupe, protingi);

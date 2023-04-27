@@ -37,6 +37,7 @@ using std::find_if;
 // ************* Konteineriai *************
 using std::vector;
 using std::deque;
+using std::list;
 using std::string;
 
 // ************* Pagalbiniai *************
@@ -47,9 +48,3 @@ using std::uniform_int_distribution;
 
 // ************* Namespaces *************
 using namespace std::chrono;
-
-// ************* Concepts **************
-template<typename T>
-concept Konteineris = std::same_as<T, std::vector<typename T::value_type>>
-    || std::same_as<T, std::list<typename T::value_type>>
-    || std::same_as<T, std::deque<typename T::value_type>>; 
