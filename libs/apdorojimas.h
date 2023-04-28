@@ -25,7 +25,7 @@ void isvesti_faila(C const& grupe, string failoPav) {
     fout.close();
 }
 
-void skaityti_faila(int );
+void skaityti_faila();
 
 template<typename C, typename T = typename C::value_type>
 void dalinimas_1(C& grupe, C& vargsai, C& protingi) {

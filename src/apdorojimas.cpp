@@ -121,9 +121,24 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void skaityti_faila(int dalinimo_budas) {
+void skaityti_faila() {
     Timer timer;
     stringstream ssIn;
+
+    int dalinimo_budas;
+    cout << "1. Daznu atveju letesnis, panaudoja daugiau atminties." << endl
+         << "2. Daznu atveju greitesnis, panaudoja maziau atminties." << endl;
+    cout << "Pasirinkite viena is auksciau pateiktu dalinimo budu: "; cin >> dalinimo_budas;
+    
+    while (dalinimo_budas != 1 && dalinimo_budas != 2) {
+        cout << "Neteisinga ivestis, bandykite dar karta: ";
+
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+
+        cin >> dalinimo_budas;
+    }
+
     string failas;
     int failoIndeksas;
     vector<string> failuSarasas;
