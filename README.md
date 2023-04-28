@@ -25,6 +25,74 @@ Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą
 Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
 ![](https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz)
 
+## Release v1.1
+
+Septintoji programos versija.
+
+### Kas pasikeitė:
+
+1. Vietoje studento struktūros naudojama klasė.
+2. Kai kurios bendro naudojimo funkcijos pakeistos į templates.
+
+### Spartos analizė
+
+Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo būdas.
+
+| Optimizavimas   | .exe failo dydis (KB) |
+| --------------- | --------------------- |
+| Be optimizavimo | 601                   |
+| -O1             | 365                   |
+| -O2             | 363                   |
+| -O3             | 359                   |
+
+<details>
+<summary>Vector</summary>
+
+| Optimizavimas   | Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes | Išvedimas į du failus | Visas programos veikimas |
+| --------------- | --------------- | --------------- | ------------------- | ------------------- | -------------------------------- | --------------------- | ------------------------ |
+| Be optimizavimo | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O1             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O2             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O3             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+
+</details>
+
+<details>
+<summary>Deque</summary>
+
+| Optimizavimas   | Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes | Išvedimas į du failus | Visas programos veikimas |
+| --------------- | --------------- | --------------- | ------------------- | ------------------- | -------------------------------- | --------------------- | ------------------------ |
+| Be optimizavimo | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O1             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O2             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O3             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+
+</details>
+
+<details>
+<summary>List</summary>
+
+| Optimizavimas   | Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes | Išvedimas į du failus | Visas programos veikimas |
+| --------------- | --------------- | --------------- | ------------------- | ------------------- | -------------------------------- | --------------------- | ------------------------ |
+| Be optimizavimo | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O1             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O2             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| -O3             | 100 000         |                 |                     |                     |                                  |                       |
+|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+
+</details>
+
 ## Release v1.0
 
 Šeštoji programos versija.
