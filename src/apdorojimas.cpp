@@ -4,27 +4,12 @@
 #include "../libs/apdorojimas.h"
 #include "../libs/timer.hpp"
 
-void dalinimas_2(vector<Studentas>& grupe, vector<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
-    protingi.assign(splitItr, grupe.end());
-
-    grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
-}
-
 void dalinimas_2(deque<Studentas>& grupe, deque<Studentas>& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
     protingi.assign(splitItr, grupe.end());
 
     grupe.resize(grupe.size() - protingi.size());
     grupe.shrink_to_fit();
-}
-
-void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
-    protingi.assign(splitItr, grupe.end());
-
-    grupe.resize(grupe.size() - protingi.size());
 }
 
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
@@ -209,7 +194,7 @@ void skaityti_faila() {
 
     Studentas stud(pazymiuKiekis);
 
-    vector<Studentas> grupe, protingi, vargsai;
+    deque<Studentas> grupe, protingi, vargsai;
 
     while (!ssIn.eof()) {
         ssIn >> stud;      
@@ -266,7 +251,7 @@ void ivesti_ranka() {
     cin.clear();
     cin.ignore(80, '\n');
 
-    vector<Studentas> grupe;
+    deque<Studentas> grupe;
 
     while (arTesti) {
         Studentas temp;
