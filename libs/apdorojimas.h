@@ -35,4 +35,4 @@ void dalinimas_1(C& grupe, C& vargsai, C& protingi) {
     grupe.clear();
 }
 
-void dalinimas_2(deque<Studentas>& , deque<Studentas>& );
+void dalinimas_2(list<Studentas>& , list<Studentas>& );

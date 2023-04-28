@@ -4,12 +4,11 @@
 #include "../libs/apdorojimas.h"
 #include "../libs/timer.hpp"
 
-void dalinimas_2(deque<Studentas>& grupe, deque<Studentas>& protingi) {
+void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
     protingi.assign(splitItr, grupe.end());
 
     grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
 }
 
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
@@ -194,7 +193,7 @@ void skaityti_faila() {
 
     Studentas stud(pazymiuKiekis);
 
-    deque<Studentas> grupe, protingi, vargsai;
+    list<Studentas> grupe, protingi, vargsai;
 
     while (!ssIn.eof()) {
         ssIn >> stud;      
@@ -208,7 +207,7 @@ void skaityti_faila() {
 
     timer.start();
 
-    sort(grupe.begin(), grupe.end());
+    grupe.sort();
     
     timer.end();
     timer.print("Studentu rikiavimas uztruko");
@@ -251,7 +250,7 @@ void ivesti_ranka() {
     cin.clear();
     cin.ignore(80, '\n');
 
-    deque<Studentas> grupe;
+    list<Studentas> grupe;
 
     while (arTesti) {
         Studentas temp;
@@ -266,7 +265,7 @@ void ivesti_ranka() {
     cout << setw(20) << left << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (vid.)" << setw(20) << "Galutinis (med.)" << endl;
     cout << string(80, '-') << endl; 
 
-    sort(grupe.begin(), grupe.end());
+    grupe.sort();
 
     for (const auto& i : grupe) cout << i << endl;
 
