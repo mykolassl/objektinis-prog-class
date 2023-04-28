@@ -38,13 +38,6 @@ Septintoji programos versija.
 
 Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo būdas.
 
-| Optimizavimas   | .exe failo dydis (KB) |
-| --------------- | --------------------- |
-| Be optimizavimo | 601                   |
-| -O1             | 365                   |
-| -O2             | 363                   |
-| -O3             | 359                   |
-
 <details>
 <summary>Vector</summary>
 
@@ -59,6 +52,13 @@ Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo b
 | -O3             | 100 000         |                 |                     |                     |                                  |                       |
 |                 | 1 000 000       |                 |                     |                     |                                  |                       |
 
+| Optimizavimas   | .exe failo dydis (KB) |
+| --------------- | --------------------- |
+| Be optimizavimo | 762                   |
+| -O1             | 417                   |
+| -O2             | 396                   |
+| -O3             | 405                   |
+
 </details>
 
 <details>
@@ -66,14 +66,21 @@ Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo b
 
 | Optimizavimas   | Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes | Išvedimas į du failus | Visas programos veikimas |
 | --------------- | --------------- | --------------- | ------------------- | ------------------- | -------------------------------- | --------------------- | ------------------------ |
-| Be optimizavimo | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O1             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O2             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O3             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| Be optimizavimo | 100 000         | 0.084           | 0.20                | 0.43                | 0.03                             | 0.11                  | 0.86                     |
+|                 | 1 000 000       | 0.81            | 2                   | 5.6                 | 0.36                             | 1.14                  | 9.94                     |
+| -O1             | 100 000         | 0.085           | 0.123               | 0.115               | 0.015                            | 0.09                  | 0.43                     |
+|                 | 1 000 000       | 0.824           | 1.19                | 1.26                | 0.14                             | 0.87                  | 4.28                     |
+| -O2             | 100 000         | 0.083           | 0.122               | 0.092               | 0.014                            | 0.1                   | 0.412                    |
+|                 | 1 000 000       | 0.812           | 1.193               | 1.2                 | 0.138                            | 0.87                  | 4.2                      |
+| -O3             | 100 000         | 0.086           | 0.121               | 0.1                 | 0.014                            | 0.093                 | 0.42                     |
+|                 | 1 000 000       | 0.81            | 1.2                 | 1.14                | 0.14                             | 0.86                  | 4.15                     |
+
+| Optimizavimas   | .exe failo dydis (KB) |
+| --------------- | --------------------- |
+| Be optimizavimo | 673                   |
+| -O1             | 410                   |
+| -O2             | 395                   |
+| -O3             | 403                   |
 
 </details>
 
@@ -82,14 +89,21 @@ Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo b
 
 | Optimizavimas   | Studentų kiekis | Failo skaitymas | Duomenų apdorojimas | Studentų rikiavimas | Studentų atskyrimas į dvi grupes | Išvedimas į du failus | Visas programos veikimas |
 | --------------- | --------------- | --------------- | ------------------- | ------------------- | -------------------------------- | --------------------- | ------------------------ |
-| Be optimizavimo | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O1             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O2             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
-| -O3             | 100 000         |                 |                     |                     |                                  |                       |
-|                 | 1 000 000       |                 |                     |                     |                                  |                       |
+| Be optimizavimo | 100 000         | 0.086           | 0.21                | 0.078               | 0.057                            | 0.125                 | 0.55                     |
+|                 | 1 000 000       | 0.85            | 2.15                | 1.05                | 0.59                             | 1.16                  | 5.8                      |
+| -O1             | 100 000         | 0.08            | 0.128               | 0.03                | 0.037                            | 0.09                  | 0.37                     |
+|                 | 1 000 000       | 0.82            | 1.24                | 0.52                | 0.36                             | 0.9                   | 3.87                     |
+| -O2             | 100 000         | 0.086           | 0.13                | 0.028               | 0.038                            | 0.094                 | 0.377                    |
+|                 | 1 000 000       | 0.813           | 1.292               | 0.516               | 0.365                            | 0.904                 | 3.89                     |
+| -O3             | 100 000         | 0.085           | 0.125               | 0.029               | 0.037                            | 0.097                 | 0.373                    |
+|                 | 1 000 000       | 0.81            | 1.22                | 0.519               | 0.363                            | 0.9                   | 3.8                      |
+
+| Optimizavimas   | .exe failo dydis (KB) |
+| --------------- | --------------------- |
+| Be optimizavimo | 601                   |
+| -O1             | 365                   |
+| -O2             | 363                   |
+| -O3             | 359                   |
 
 </details>
 
