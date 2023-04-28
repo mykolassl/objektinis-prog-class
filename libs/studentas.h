@@ -78,6 +78,8 @@ public:
             << setw(20) << fixed << setprecision(2) << s.m_Galutinis_vid << setw(20) << s.m_Galutinis_med;
         return out;
     }
+
+    ~Studentas() { m_Nd_pazymiai.clear(); }
 };
 
 
