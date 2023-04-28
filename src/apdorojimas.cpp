@@ -1,13 +1,23 @@
 #include "../libs/lib.h"
 #include "../libs/studentas.h"
 #include "../libs/pagalbines_funk.h"
+#include "../libs/apdorojimas.h"
 #include "../libs/timer.hpp"
 
-void dalinimas_1(list<Studentas>& grupe, list<Studentas>& vargsai, list<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) {return stud.galutinis_vid() >= 5;});
-    vargsai.assign(grupe.begin(), splitItr);
+void dalinimas_2(vector<Studentas>& grupe, vector<Studentas>& protingi) {
+    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
     protingi.assign(splitItr, grupe.end());
-    grupe.clear();
+
+    grupe.resize(grupe.size() - protingi.size());
+    grupe.shrink_to_fit();
+}
+
+void dalinimas_2(deque<Studentas>& grupe, deque<Studentas>& protingi) {
+    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
+    protingi.assign(splitItr, grupe.end());
+
+    grupe.resize(grupe.size() - protingi.size());
+    grupe.shrink_to_fit();
 }
 
 void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
@@ -15,23 +25,6 @@ void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
     protingi.assign(splitItr, grupe.end());
 
     grupe.resize(grupe.size() - protingi.size());
-    // grupe.shrink_to_fit();
-}
-
-void isvesti_faila(list<Studentas>& grupe, string failoPav) {    
-    char eilute[100];
-    string output = "";
-
-    for (auto& i : grupe) {
-        sprintf(eilute, "%-20s%-20s%-20.2f%-20.2f\n", i.vardas().c_str(), i.pavarde().c_str(), i.galutinis_vid(), i.galutinis_med());
-        output += eilute;
-    }
-
-    sprintf(eilute, "%-20s%-20s%-20s%-20s", "Vardas", "Pavarde", "Galutinis (vid.)", "Galutinis (med.)");
-
-    ofstream fout(failoPav + ".txt");
-    fout << eilute << endl << string(80, '-') << endl << output;
-    fout.close();
 }
 
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
@@ -128,24 +121,9 @@ void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     cout << "Studento duomenys sekmingai ivesti." << endl << endl;
 }
 
-void skaityti_faila() {
+void skaityti_faila(int dalinimo_budas) {
     Timer timer;
     stringstream ssIn;
-
-    int dalinimo_budas;
-    cout << "1. Daznu atveju letesnis, panaudoja daugiau atminties." << endl
-         << "2. Daznu atveju greitesnis, panaudoja maziau atminties." << endl;
-    cout << "Pasirinkite viena is auksciau pateiktu dalinimo budu: "; cin >> dalinimo_budas;
-    
-    while (dalinimo_budas != 1 && dalinimo_budas != 2) {
-        cout << "Neteisinga ivestis, bandykite dar karta: ";
-
-        cin.clear();
-        cin.ignore(INT_MAX, '\n');
-
-        cin >> dalinimo_budas;
-    }
-
     string failas;
     int failoIndeksas;
     vector<string> failuSarasas;
@@ -215,7 +193,8 @@ void skaityti_faila() {
     }
 
     Studentas stud(pazymiuKiekis);
-    list<Studentas> grupe, protingi, vargsai;
+
+    vector<Studentas> grupe, protingi, vargsai;
 
     while (!ssIn.eof()) {
         ssIn >> stud;      
@@ -229,7 +208,7 @@ void skaityti_faila() {
 
     timer.start();
 
-    // sort(grupe.begin(), grupe.end());
+    sort(grupe.begin(), grupe.end());
     
     timer.end();
     timer.print("Studentu rikiavimas uztruko");
