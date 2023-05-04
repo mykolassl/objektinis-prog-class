@@ -25,6 +25,14 @@ Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą
 Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
 ![](https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz)
 
+## Release v1.2
+
+Aštuntoji programos versija.
+
+### Kas pasikeitė:
+
+1. Pridėti kopijavimo ir perkėlimo kontruktoriai ir priskyrimo operatoriai.
+
 ## Release v1.1
 
 Septintoji programos versija.
