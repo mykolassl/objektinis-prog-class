@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "pagalbines_funk.h"
 
 class Studentas {
@@ -17,6 +18,21 @@ public:
 
     Studentas(int pazymiuKiekis)
         : m_Vardas(""), m_Pavarde(""), m_Galutinis_vid(0), m_Galutinis_med(0), m_EgzPazymys(0), m_Pazymiu_kiekis(pazymiuKiekis) {}
+
+    Studentas(const Studentas& stud)
+        : m_Vardas(stud.m_Vardas), m_Pavarde(stud.m_Pavarde),
+          m_Galutinis_vid(stud.m_Galutinis_vid), m_Galutinis_med(stud.m_Galutinis_med),
+          m_EgzPazymys(stud.m_EgzPazymys), m_Pazymiu_kiekis(stud.m_Pazymiu_kiekis),
+          m_Nd_pazymiai(stud.m_Nd_pazymiai) {}
+
+    Studentas(Studentas&& stud)
+        : m_Vardas(stud.m_Vardas), m_Pavarde(stud.m_Pavarde),
+          m_Galutinis_vid(stud.m_Galutinis_vid), m_Galutinis_med(stud.m_Galutinis_med),
+          m_EgzPazymys(stud.m_EgzPazymys), m_Pazymiu_kiekis(stud.m_Pazymiu_kiekis),
+          m_Nd_pazymiai(std::move(stud.m_Nd_pazymiai)) {
+        stud.m_Vardas = stud.m_Pavarde = "";
+        stud.m_Galutinis_vid = stud.m_Galutinis_med = stud.m_EgzPazymys = stud.m_Pazymiu_kiekis = 0;
+    }
 
     void vardas(std::string vardas) { m_Vardas = vardas; }
     std::string vardas() const { return m_Vardas; }
@@ -41,6 +57,37 @@ public:
 
     double galutinis_vid() const { return m_Galutinis_vid; }
     double galutinis_med() const { return m_Galutinis_med; }
+
+    Studentas& operator=(const Studentas& stud) {
+        if (&stud == this) return *this;
+
+        m_Vardas = stud.m_Vardas;
+        m_Pavarde = stud.m_Pavarde;
+        m_Galutinis_vid = stud.m_Galutinis_vid;
+        m_Galutinis_med = stud.m_Galutinis_med;
+        m_EgzPazymys = stud.m_EgzPazymys;
+        m_Pazymiu_kiekis = stud.m_Pazymiu_kiekis;
+        m_Nd_pazymiai = stud.m_Nd_pazymiai;
+
+        return *this;
+    }
+
+    Studentas& operator=(Studentas&& stud) {
+        if (&stud == this) return *this;
+
+        m_Vardas = stud.m_Vardas;
+        m_Pavarde = stud.m_Pavarde;
+        m_Galutinis_vid = stud.m_Galutinis_vid;
+        m_Galutinis_med = stud.m_Galutinis_med;
+        m_EgzPazymys = stud.m_EgzPazymys;
+        m_Pazymiu_kiekis = stud.m_Pazymiu_kiekis;
+        m_Nd_pazymiai = std::move(stud.m_Nd_pazymiai);
+
+        stud.m_Vardas = stud.m_Pavarde = "";
+        stud.m_Galutinis_vid = stud.m_Galutinis_med = stud.m_EgzPazymys = stud.m_Pazymiu_kiekis = 0;
+
+        return *this;
+    }
 
     friend bool operator>(const Studentas& A, const Studentas& B) {
         return A.m_Galutinis_vid > B.m_Galutinis_vid;
