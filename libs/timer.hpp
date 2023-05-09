@@ -21,11 +21,11 @@ public:
         m_VisasLaikas += m_Skirtumas;
     }
 
-    void print(std::string_view tekstas) {
+    void print(std::string tekstas) {
         std::cout << tekstas << " " << m_Skirtumas.count() / 1000.0 << "s" << std::endl;
     }
 
-    void print_end(std::string_view tekstas) {
+    void print_end(std::string tekstas) {
         std::cout << tekstas << " " << m_VisasLaikas.count() / 1000.0 << "s" << std::endl;
     }
 };
