@@ -18,7 +18,6 @@ public:
     virtual void pavarde(std::string ) = 0;
     virtual std::string pavarde() const = 0;
 };
-//
 
 class Studentas: public Zmogus {
 private:
