@@ -25,6 +25,14 @@ Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą
 Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
 ![](https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz)
 
+## Release v1.5
+
+Devintoji programos versija.
+
+### Kas pasikeitė:
+
+1. Pridėta bazinė abstrakčioji klasė `zmogus`.
+
 ## Release v1.2
 
 Aštuntoji programos versija.
@@ -57,8 +65,10 @@ Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo b
 |                 | 1 000 000       | 0.825           | 1.298               | 1.17                | 0.159                            | 0.858                 | 4.3                      |
 | -O2             | 100 000         | 0.085           | 0.135               | 0.08                | 0.014                            | 0.09                  | 0.4                      |
 |                 | 1 000 000       | 0.808           | 1.3                 | 1.067               | 0.144                            | 0.875                 | 4.195                    |
-| -O3             | 100 000         | 0.084           | 0.136               | 0.079               | 0.014                            | 0.098                 | 0.411                    |
+| -O3 / class     | 100 000         | 0.084           | 0.136               | 0.079               | 0.014                            | 0.098                 | 0.411                    |
 |                 | 1 000 000       | 0.809           | 1.313               | 1.03                | 0.145                            | 0.85                  | 4.15                     |
+| -O3 / struct    | 100 000         | 0.1             | 0.14                | 0.055               | 0.061                            | 0.17                  | 0.54                     |
+|                 | 1 000 000       | 0.8             | 1.3                 | 0.58                | 0.4 / 0.26                       | 1.1                   | 4.18 / 3.95              |
 
 | Optimizavimas   | .exe failo dydis (KB) |
 | --------------- | --------------------- |

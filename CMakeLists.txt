@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
+set(CMAKE_CXX_FLAGS "-03")
+set(CMAKE_C_FLAGS "-03")
 project(Laboratorinis)
 include_directories(libs)
 file(GLOB SOURCES "src/*.cpp")
