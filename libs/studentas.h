@@ -5,28 +5,41 @@
 #include <algorithm>
 #include "pagalbines_funk.h"
 
-class Studentas {
-private:
+class Zmogus {
+protected:
     std::string m_Vardas, m_Pavarde;
+
+    Zmogus(std::string vardas = "", std::string pavarde = "")
+        : m_Vardas(vardas), m_Pavarde(pavarde) {}
+
+public:
+    virtual void vardas(std::string ) = 0;
+    virtual std::string vardas() const = 0;
+    virtual void pavarde(std::string ) = 0;
+    virtual std::string pavarde() const = 0;
+};
+
+class Studentas: public Zmogus {
+private:
     double m_Galutinis_vid, m_Galutinis_med;
     int m_EgzPazymys, m_Pazymiu_kiekis;
     std::vector<int> m_Nd_pazymiai;
 
 public:
     Studentas()
-        : m_Vardas(""), m_Pavarde(""), m_Galutinis_vid(0), m_Galutinis_med(0), m_EgzPazymys(0) {}
+        : Zmogus(), m_Galutinis_vid(0), m_Galutinis_med(0), m_EgzPazymys(0) {}
 
     Studentas(int pazymiuKiekis)
-        : m_Vardas(""), m_Pavarde(""), m_Galutinis_vid(0), m_Galutinis_med(0), m_EgzPazymys(0), m_Pazymiu_kiekis(pazymiuKiekis) {}
+        : Zmogus(), m_Galutinis_vid(0), m_Galutinis_med(0), m_EgzPazymys(0), m_Pazymiu_kiekis(pazymiuKiekis) {}
 
     Studentas(const Studentas& stud)
-        : m_Vardas(stud.m_Vardas), m_Pavarde(stud.m_Pavarde),
+        : Zmogus(stud.m_Vardas, stud.m_Pavarde),
           m_Galutinis_vid(stud.m_Galutinis_vid), m_Galutinis_med(stud.m_Galutinis_med),
           m_EgzPazymys(stud.m_EgzPazymys), m_Pazymiu_kiekis(stud.m_Pazymiu_kiekis),
           m_Nd_pazymiai(stud.m_Nd_pazymiai) {}
 
     Studentas(Studentas&& stud)
-        : m_Vardas(stud.m_Vardas), m_Pavarde(stud.m_Pavarde),
+        : Zmogus(stud.m_Vardas, stud.m_Pavarde),
           m_Galutinis_vid(stud.m_Galutinis_vid), m_Galutinis_med(stud.m_Galutinis_med),
           m_EgzPazymys(stud.m_EgzPazymys), m_Pazymiu_kiekis(stud.m_Pazymiu_kiekis),
           m_Nd_pazymiai(std::move(stud.m_Nd_pazymiai)) {
