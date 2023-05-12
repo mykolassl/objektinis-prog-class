@@ -2,7 +2,8 @@
 **/*.o
 
 **/*.txt
-!src/CMakeLists.txt
+!**/*/CMakeLists.txt
+!CMakeLists.txt
 
 .vscode
 
