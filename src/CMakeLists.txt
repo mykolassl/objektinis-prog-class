@@ -1,0 +1,12 @@
+#cmake_minimum_required(VERSION 3.25)
+#project(Laboratorinis)
+#include_directories(../libs)
+#file(GLOB SOURCES "*.cpp")
+#file(GLOB HEADERS "../libs/*.h")
+#add_executable(Laboratorinis ${SOURCES} ${HEADERS})
+
+set(BINARY ${CMAKE_PROJECT_NAME})
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true ../libs/*.h *.cpp)
+set(SOURCES ${SOURCES})
+add_executable(${BINARY}_run ${SOURCES})
+add_library(${BINARY}_lib STATIC ${SOURCES})

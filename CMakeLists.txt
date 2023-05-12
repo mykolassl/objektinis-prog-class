@@ -1,7 +1,0 @@
-cmake_minimum_required(VERSION 3.25)
-project(Laboratorinis)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_BUILD_TYPE Release)
-include_directories(libs)
-file(GLOB SOURCES "src/*.cpp")
-add_executable(Laboratorinis ${SOURCES})
