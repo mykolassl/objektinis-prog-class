@@ -2,7 +2,9 @@
 
 #include "lib.h"
 
-class Timer {
+#define DLLExport __declspec(dllexport)
+
+class DLLExport Timer {
 private:
     time_point<high_resolution_clock> m_Pradzia, m_Pabaiga;
     milliseconds m_VisasLaikas, m_Skirtumas;

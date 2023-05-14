@@ -12,21 +12,6 @@ void dalinimas_2(vector<Studentas>& grupe, vector<Studentas>& protingi) {
     grupe.shrink_to_fit();
 }
 
-void dalinimas_2(deque<Studentas>& grupe, deque<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
-    protingi.assign(splitItr, grupe.end());
-
-    grupe.resize(grupe.size() - protingi.size());
-    grupe.shrink_to_fit();
-}
-
-void dalinimas_2(list<Studentas>& grupe, list<Studentas>& protingi) {
-    auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) { return stud.galutinis_vid() >= 5; });
-    protingi.assign(splitItr, grupe.end());
-
-    grupe.resize(grupe.size() - protingi.size());
-}
-
 void pildyti(Studentas& stud, bool& arTesti, int ndKiekis) {
     // ************** Vardas ir pavarde **************
     vector<int> pazymiai;

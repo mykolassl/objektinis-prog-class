@@ -8,7 +8,7 @@ VU ISI 1k. 2sem. Objektinio programavimo laboratoriniai darbai.
 
 ## Naudojimosi instrukcija
 
-Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą, programa pirmą kartą pasileis automatiškai, norint paleisti programą dar kartą, ją galima rasti aplanke `Debug/Laboratorinis.exe`. Pasileidus programai nurodoma kaip bus įvesti studentų duomenys: įvesti ranka, perskaityti iš failo arba sugeneruoti atsitiktiniai failai.
+Norint įsidiegti programą savo kompiuteryje, reikia atsisiųsti `studentuDB_setup.exe` failą ir paleidus failą, sekti nurodytus žingsnius. Baigus diegimą ir paleidus `studentuDB.exe` failą nurodytame įdiegimo aplanke iš pradžių nurodoma kaip bus įvesti studentų duomenys: įvesti ranka, perskaityti iš failo arba sugeneruoti atsitiktiniai failai.
 
 > ### Įvedimas ranka
 >
@@ -24,6 +24,16 @@ Pirmo naudojimosi karto metu reikia paleisti `build.bat` failą. Baigus diegimą
 
 Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę
 ![](https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz)
+
+## Release v2.0
+
+Galutinė programos versija 🎉.
+
+### Kas pasikeitė:
+
+1. Pridėtas programos diegimo failas `studentuDB_setup.exe`.
+2. Pridėti unit testai naudojantis Google Test framework'u.
+3. Pridėta doxygen dokumentacija.
 
 ## Release v1.5
 

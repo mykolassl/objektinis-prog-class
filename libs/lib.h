@@ -12,7 +12,6 @@
 #include <vector>
 #include <deque>
 #include <list>
-#include <concepts>
 
 // ************* I/O *************
 using std::cout;
