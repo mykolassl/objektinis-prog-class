@@ -6,7 +6,8 @@ var indexSectionsWithContent =
   3: "adegimopstvz~",
   4: "mpv",
   5: "o",
-  6: "o"
+  6: "d",
+  7: "o"
 };
 
 var indexSectionNames =
@@ -17,7 +18,8 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "related",
-  6: "pages"
+  6: "defines",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -28,6 +30,7 @@ var indexSectionLabels =
   3: "Functions",
   4: "Variables",
   5: "Friends",
-  6: "Pages"
+  6: "Macros",
+  7: "Pages"
 };
 

@@ -79,7 +79,7 @@ Apie programą</h1>
 <p>Ši programa apdoroja studentų namų darbų bei egzamino pažymius ir išveda jų vardus, pavardes bei galutinius pažymius. Studentų duomenis galima įvesti ranka, skaityti iš jau egzistuojančio failo arba sugeneruoti penkis failus su atsitiktiniais duomenimis.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Naudojimosi instrukcija</h1>
-<p>Pirmo naudojimosi karto metu reikia paleisti <code>build.bat</code> failą. Baigus diegimą, programa pirmą kartą pasileis automatiškai, norint paleisti programą dar kartą, ją galima rasti aplanke <code>Debug/Laboratorinis.exe</code>. Pasileidus programai nurodoma kaip bus įvesti studentų duomenys: įvesti ranka, perskaityti iš failo arba sugeneruoti atsitiktiniai failai.</p>
+<p>Norint įsidiegti programą savo kompiuteryje, reikia atsisiųsti <code>studentuDB_setup.exe</code> failą ir paleidus failą, sekti nurodytus žingsnius. Baigus diegimą ir paleidus <code>studentuDB.exe</code> failą nurodytame įdiegimo aplanke iš pradžių nurodoma kaip bus įvesti studentų duomenys: įvesti ranka, perskaityti iš failo arba sugeneruoti atsitiktiniai failai.</p>
 <blockquote class="doxtable">
 <p>&zwj;### Įvedimas ranka</p>
 <p>Pasirinkus įvedimą ranka, iš pradžių nurodomas namų darbų kiekis, kuris buvo skirtas studentams, po to studentų duomenys įvedami tol, kol į vardo eilutę neįrašoma "stop". Namų darbų ir egzamino pažymius galima įvesti pačiam arba pasirinkti atsitiktinį skaičių generavimą (nuo 1 iki 10 balų). Įvedant duomenis ranka, galima anksčiau sustabdyti įvestį įrašant "-1" kaip namų darbų pažymį, tačiau vietoje likusių neįvestų pažymių, bus įrašomi nuliai. </p>
@@ -94,31 +94,41 @@ Naudojimosi instrukcija</h1>
 </blockquote>
 <p>Studento galutinis pažymys apskaičiuojamas pagal iš anksto suteiktą formulę <img src="https://latex.codecogs.com/svg.image?G%20=%200.4%20*%20\frac{\sum_{i=1}^{n}nd_{i}}{n}%20+%200.6%20*%20egz" alt="" class="inline"/></p>
 <h1><a class="anchor" id="autotoc_md3"></a>
+Release v2.0</h1>
+<p>Galutinė programos versija 🎉.</p>
+<h2><a class="anchor" id="autotoc_md4"></a>
+Kas pasikeitė:</h2>
+<ol type="1">
+<li>Pridėtas programos diegimo failas <code>studentuDB_setup.exe</code>.</li>
+<li>Pridėti unit testai naudojantis Google Test framework'u.</li>
+<li>Pridėta doxygen dokumentacija.</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Release v1.5</h1>
 <p>Devintoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Pridėta bazinė abstrakčioji klasė <code>zmogus</code>.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Release v1.2</h1>
 <p>Aštuntoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Pridėti kopijavimo ir perkėlimo kontruktoriai ir priskyrimo operatoriai.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Release v1.1</h1>
 <p>Septintoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Vietoje studento struktūros naudojama klasė.</li>
 <li>Kai kurios bendro naudojimo funkcijos pakeistos į templates.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Spartos analizė</h2>
 <p>Visiems bandymams buvo naudojamas sparčiausias (antras) konteinerių dalijimo būdas.</p>
 <details >
@@ -239,17 +249,17 @@ List</summary>
 </table>
 <p></p>
 </details>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Release v1.0</h1>
 <p>Šeštoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Pagreitintas rašymas į failą.</li>
 <li>Pridėtas CMake build failas.</li>
 <li>Pridėtas studentų konteinerio dalinimo būdo pasirinkimas.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Spartos analizė</h2>
 <details >
 <summary >
@@ -320,16 +330,16 @@ List</summary>
 </ul>
 <p></p>
 </details>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Release v0.5</h1>
 <p>Penktoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Palengvintas norimo apdoroti failo pasirinkimas.</li>
 <li>Pridėtos dvi naujos programos realizacijos naudojant <code>list</code> ir <code>deque</code> konteinerius, kurios pateiktos atitinkamose <code>v0.5-list</code> ir <code>v0.5-deque</code> šakose.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Programos spartos analizė</h2>
 <details >
 <summary >
@@ -391,16 +401,16 @@ List</summary>
 </table>
 <p></p>
 </details>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 Release v0.4</h1>
 <p>Ketvirtoji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Pridėtas pasirinkimas generuoti atsitiktinius sąrašus nuo 1000 iki 10000000 studentų.</li>
 <li>Pridėtas studentų paskirstymas į du failus. Faile <code>protingi.txt</code> išvedamas studentų sąrašas, kurių vidurkis &gt;=5, o faile <code>vargsai.txt</code> studentų, kurių vidurkis &lt;5.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 Programos spartos analizė</h2>
 <p>Visi testavimo atvejai pateikti neturint jokių pradinių duomenų failų, o studentai buvo generuojami su penkiais namų darbų pažymiais ir vienu egzamino balu. Visi matavimų vidurkiai pateikti sekundėmis.</p>
 <table class="markdownTable">
@@ -417,28 +427,28 @@ Programos spartos analizė</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">10 000 000   </td><td class="markdownTableBodyNone">9.85   </td><td class="markdownTableBodyNone">7.8   </td><td class="markdownTableBodyNone">14.2   </td><td class="markdownTableBodyNone">7.7   </td><td class="markdownTableBodyNone">16.5   </td><td class="markdownTableBodyNone">46.2   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Release v0.3</h1>
 <p>Trečioji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
 <li>Projektas paskirstytas į mažesnius failus.</li>
 <li>Pridėtas klaidų valdymas skaitant duomenų failą.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Release v0.2</h1>
 <p>Antroji programos versija.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Kas pasikeitė:</h2>
 <ol type="1">
-<li>Projekte paliktas tik vienas <code><a class="el" href="main_8cpp.html">main.cpp</a></code> failas su <code>&lt;vector&gt;</code> realizacija.</li>
+<li>Projekte paliktas tik vienas <code>main.cpp</code> failas su <code>&lt;vector&gt;</code> realizacija.</li>
 <li>Pridėtas duomenų skaitymas iš <code>kursiokai.txt</code> failo, kurio apdoroti duomenys įrašomi į <code>apdorota.txt</code> failą.</li>
 <li>Pakeistas atsitiktinių skaičių generavimas. Vietoje C kalbos <code>srand()</code> naudojama C++ <code>&lt;random&gt;</code> biblioteka.</li>
 <li>Pakeistas studentų įvedimo ranka sustabdymas. Nuo šiol užtenka įrašyti "stop" į vardo eilutę.</li>
 <li>Pridėtas studentų rikiavimas pagal vardą abėcėlės tvarka prieš spausdinimą/įrašymą į failą.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Release v0.1</h1>
 <p>Pirmoji programos versija.</p>
 <p>Faile <code>sprendimas_1.cpp</code> pateiktas užduoties sprendimas naudojantis C++ standartine biblioteka <code>&lt;vector&gt;</code> studentų ir jų namų darbų pažymių laikymui. Faile <code>sprendimas_2.cpp</code> pateikta antra užduoties iteracija, kurioje vietoj <code>&lt;vector&gt;</code> buvo naudojami paprasti dinaminiai C kalbos masyvai. </p>
