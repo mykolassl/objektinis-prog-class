@@ -3,13 +3,15 @@
 #include "studentas.h"
 #include "lib.h"
 
-void ivesti_ranka();
-void generuoti_failus();
-void pildyti(Studentas& , bool& , int );
-void spausdinti(const Studentas );
+#define DLLExport __declspec(dllexport)
+
+DLLExport void ivesti_ranka();
+DLLExport void generuoti_failus();
+DLLExport void pildyti(Studentas& , bool& , int );
+DLLExport void spausdinti(const Studentas );
 
 template<typename C, typename T = typename C::value_type>
-void isvesti_faila(C const& grupe, string failoPav) {
+DLLExport void isvesti_faila(C const& grupe, string failoPav) {
     char eilute[100];
     string output = "";
 
@@ -25,14 +27,14 @@ void isvesti_faila(C const& grupe, string failoPav) {
     fout.close();
 }
 
-void skaityti_faila();
+DLLExport void skaityti_faila();
 
 template<typename C, typename T = typename C::value_type>
-void dalinimas_1(C& grupe, C& vargsai, C& protingi) {
+DLLExport void dalinimas_1(C& grupe, C& vargsai, C& protingi) {
     auto splitItr = find_if(grupe.begin(), grupe.end(), [](Studentas& stud) {return stud.galutinis_vid() >= 5;});
     vargsai.assign(grupe.begin(), splitItr);
     protingi.assign(splitItr, grupe.end());
     grupe.clear();
 }
 
-void dalinimas_2(vector<Studentas>& , vector<Studentas>& );
+DLLExport void dalinimas_2(vector<Studentas>& , vector<Studentas>& );

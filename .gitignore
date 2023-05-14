@@ -1,11 +1,15 @@
 **/*.exe
 **/*.o
-
+**/*.dll
+**/*.a
 **/*.txt
+
+!studentuDB_setup.exe
 !**/*/CMakeLists.txt
 !CMakeLists.txt
 
 .vscode
+.idea
 
 # Cmake directories
 [Dd]ebug/

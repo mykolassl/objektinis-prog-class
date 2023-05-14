@@ -2,7 +2,9 @@
 
 #include "lib.h"
 
-void generuoti_faila(int , int );
-void generuoti_pazymius(vector<int>& , int& );
-double apskaiciuoti_vidurki(vector<int> );
-double apskaiciuoti_mediana(vector<int> );
+#define DLLExport __declspec(dllexport)
+
+DLLExport void generuoti_faila(int , int );
+DLLExport void generuoti_pazymius(vector<int>& , int& );
+DLLExport double apskaiciuoti_vidurki(vector<int> );
+DLLExport double apskaiciuoti_mediana(vector<int> );

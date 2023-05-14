@@ -5,7 +5,9 @@
 #include <algorithm>
 #include "pagalbines_funk.h"
 
-class Zmogus {
+#define DLLExport __declspec(dllexport)
+
+class DLLExport Zmogus {
 protected:
     std::string m_Vardas, m_Pavarde;
 
@@ -19,7 +21,7 @@ public:
     virtual std::string pavarde() const = 0;
 };
 
-class Studentas: public Zmogus {
+class DLLExport Studentas: public Zmogus {
 private:
     double m_Galutinis_vid, m_Galutinis_med;
     int m_EgzPazymys, m_Pazymiu_kiekis;
